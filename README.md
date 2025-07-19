@@ -1,50 +1,72 @@
-# Welcome to your Expo app 👋
+# 🎭 GriFuna – Role-Based Event Management Platform
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**GriFuna** is a dynamic App/Web event platform that connects:
 
-## Get started
+- 🧍‍♂️ **Attendees** – Discover, register for, and attend events.
+- 🎤 **Organizers** – Create, promote, and manage events, sell tickets, and hire talents.
+- 👩‍🎤 **Talents** – Offer services such as DJs, MCs, Makeup Artists, and more to event organizers.
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## 🌐 Key Features by Role
 
-2. Start the app
+### 🧍‍♂️ Attendee
+- Browse and search public events
+- Buy tickets (single or group)
+- View ticket history and upcoming events
+- Receive reminders/notifications
+- Save/bookmark events and talents
+- Leave reviews for events and talents
 
-   ```bash
-   npx expo start
-   ```
+### 🎤 Organizer
+- Create and publish events (set time, venue, capacity, pricing)
+- Track ticket sales and analytics
+- Manage attendees (check-in, refunds, etc.)
+- Book and chat with talents
+- Promote events (e.g., featured listings)
+- Edit or cancel events
 
-In the output, you'll find options to open the app in a
+### 👩‍🎤 Talent
+- Build a professional profile (bio, rates, services, reviews, portfolio)
+- Set availability and service area
+- Accept/reject booking requests
+- Chat with organizers
+- Integrate payouts (e.g., Paystack, Stripe Connect)
+- View job history and upcoming gigs
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 🔁 Role Intersections
+- A **Talent** can also be an **Attendee**
+- An **Organizer** can also be a **Talent**
+- Roles are dynamically assigned during signup/onboarding
 
-## Get a fresh project
+---
 
-When you're ready, run:
+## 🛠️ Tech Stack
 
-```bash
-npm run reset-project
-```
+### 📱 Mobile App
+- **React Native** (with TypeScript)
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 🌐 Web App
+- **React.js / Next.js**
+- **TypeScript**
+- **Tailwind CSS**
 
-## Learn more
+### 🧠 Backend
+- **Express.js**
+- **MongoDB**
+- **TypeScript**
+- **REST API (planned GraphQL support)**
 
-To learn more about developing your project with Expo, look at the following resources:
+### 💳 Payments
+- **Stripe Connect**
+- **Paystack**
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+## 📄 License
+[MIT](LICENSE)
 
-Join our community of developers creating universal apps.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
