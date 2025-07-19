@@ -1,43 +1,123 @@
-import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform } from 'react-native';
+import { Tabs } from 'expo-router';
+import { Platform, View } from 'react-native';
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+// Import your SVG files directly as React components
+// Active (filled) icons
+import HomeSvg from '../../assets/svg/HomeD.svg';
+import ExploreSvg from '../../assets/svg/EventD.svg';
+import AddSvg from '../../assets/svg/SaveD.svg';
+import MessageSvg from '../../assets/svg/MessagesD.svg';
+import ProfileSvg from '../../assets/svg/ProfileD.svg';
+
+import HomeSvgA from '../../assets/svg/HomeA.svg';
+import ExploreSvgA from '../../assets/svg/EventA.svg';
+import AddSvgA from '../../assets/svg/SaveA.svg';
+import MessageSvgA from '../../assets/svg/MessagesA.svg';
+import ProfileSvgA from '../../assets/svg/ProfileA.svg';
+
+
+
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+      screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
+        tabBarActiveTintColor: '#FF8A65',
+        tabBarInactiveTintColor: '#8E8E93',
+  
+   
+      
+        tabBarLabelStyle: {
+          fontFamily: 'mm',
+          fontSize: 11,
+        },
+      
+        tabBarIcon: ({ focused, color, size }) => {
+          let ActiveSvgComponent;
+          let InactiveSvgComponent;
+                   
+          switch (route.name) {
+            case 'index':
+              ActiveSvgComponent = HomeSvgA;
+              InactiveSvgComponent = HomeSvg;
+              break;
+            case 'explore':
+              ActiveSvgComponent = ExploreSvgA;
+              InactiveSvgComponent = ExploreSvg;
+              break;
+            case 'favourite':
+              ActiveSvgComponent = AddSvgA;
+              InactiveSvgComponent = AddSvg;
+              break;
+            case 'message':
+              ActiveSvgComponent = MessageSvgA;
+              InactiveSvgComponent = MessageSvg;
+              break;
+            case 'profile':
+              ActiveSvgComponent = ProfileSvgA;
+              InactiveSvgComponent = ProfileSvg;
+              break;
+            default:
+              ActiveSvgComponent = ProfileSvgA;
+              InactiveSvgComponent = ProfileSvg;
+          }
+
+          const SvgComponent = focused ? ActiveSvgComponent : InactiveSvgComponent;
+                   
+          return (
+            <View style={{
+              position: 'relative',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+             
+              
+              <SvgComponent
+                width={23}
+                height={23}
+                fill={color}
+                color={color}
+
+                style={{ 
+                  tintColor: color,
+                  opacity: focused ? 1 : 0.7
+                }}
+              />
+            </View>
+          );
+        },
+      })}
+    >
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
       <Tabs.Screen
         name="explore"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'My Events',
+        }}
+      />
+      <Tabs.Screen
+        name="favourite"
+        options={{
+          title: 'Saved',
+        }}
+      />
+      <Tabs.Screen
+        name="message"
+        options={{
+          title: 'Messages',
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
         }}
       />
     </Tabs>

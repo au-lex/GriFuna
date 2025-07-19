@@ -9,17 +9,21 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    mb: require('../assets/fonts/Montserrat-ExtraBold.ttf'),
+    mm: require('../assets/fonts/Montserrat-Medium.ttf'),
+ol: require('../assets/fonts/OpenSans-Light.ttf'),  
+ob: require('../assets/fonts/OpenSans-Bold.ttf'),
   });
 
   if (!loaded) {
-    // Async font loading only occurs in development.
+
     return null;
   }
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
+        <Stack.Screen name='onboarding/Index' options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
