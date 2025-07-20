@@ -26,11 +26,11 @@ export default function TabLayout() {
         headerShown: false,
         tabBarActiveTintColor: '#FF8A65',
         tabBarInactiveTintColor: '#8E8E93',
-  tabBarActiveBackgroundColor: '#1a1625',
-        tabBarInactiveBackgroundColor: '#1a1625',
+  tabBarActiveBackgroundColor: '#0a0a0a',
+        tabBarInactiveBackgroundColor:  '#0a0a0a',
   
         tabBarStyle: {
-          backgroundColor: '#1a1625',
+          backgroundColor: '#0a0a0a',
           borderTopWidth: 0.2, // <<<< This fixes the white border
           elevation: 0, // Optional: removes Android shadow
         },
