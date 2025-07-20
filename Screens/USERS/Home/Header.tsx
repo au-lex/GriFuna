@@ -12,6 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { useRouter } from 'expo-router';
 import Noti from "../../../assets/svg/Noti.svg";
+import { Colors } from '@/constants/Colors';
 
 
 interface HeaderProps {
@@ -127,7 +128,7 @@ const Header: React.FC<HeaderProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFF',
+    backgroundColor: Colors.bg,
     paddingTop: 10,
     paddingBottom: 5,
   },
@@ -152,17 +153,17 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
     borderWidth: 2,
-    borderColor: '#AD112A',
+    borderColor:  Colors.acc,
   },
   avatarPlaceholder: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: '#FF8C69',
+    backgroundColor:  Colors.acc,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
-    borderColor: '#FF8C69',
+    borderColor: Colors.acc,
   },
 
   greetingContainer: {
@@ -171,13 +172,13 @@ const styles = StyleSheet.create({
   greeting: {
     fontSize: 18,
 
-    color: '#333',
+    color: '#fff',
     fontFamily: 'mm',
     // marginBottom: 2,
   },
   subtitle: {
     fontSize: 13,
-    color: '#333',
+    color: '#fff',
     fontFamily: 'ol',
     opacity: 0.8,
   },
@@ -191,7 +192,7 @@ const styles = StyleSheet.create({
     borderRadius: 21,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    // backgroundColor: Colors.acc,
     borderWidth: 1,
     borderColor: '#ff8c69',
   },
@@ -202,17 +203,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -2,
     right: -2,
-    backgroundColor: '#FF8A65',
+    backgroundColor:  Colors.acc,
     borderRadius: 10,
     minWidth: 18,
     height: 18,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
-    borderColor: '#fff',
+    borderColor: Colors.acc,
   },
   notificationText: {
-    color: '#fff',
+    color: Colors.acc,
     fontSize: 10,
     fontFamily: 'Raleway-Bold',
   },
@@ -231,7 +232,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: '#333',
   },
   searchContainerFocused: {
     borderColor: '#FF8C69',
@@ -255,7 +256,7 @@ const styles = StyleSheet.create({
     borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.acc,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -270,7 +271,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.acc,
     marginHorizontal: 20,
     borderRadius: 15,
     shadowColor: '#000',

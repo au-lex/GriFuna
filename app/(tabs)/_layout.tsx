@@ -26,8 +26,14 @@ export default function TabLayout() {
         headerShown: false,
         tabBarActiveTintColor: '#FF8A65',
         tabBarInactiveTintColor: '#8E8E93',
+  tabBarActiveBackgroundColor: '#1a1625',
+        tabBarInactiveBackgroundColor: '#1a1625',
   
-   
+        tabBarStyle: {
+          backgroundColor: '#1a1625',
+          borderTopWidth: 0.2, // <<<< This fixes the white border
+          elevation: 0, // Optional: removes Android shadow
+        },
       
         tabBarLabelStyle: {
           fontFamily: 'mm',
@@ -82,7 +88,7 @@ export default function TabLayout() {
 
                 style={{ 
                   tintColor: color,
-                  opacity: focused ? 1 : 0.7
+                  opacity: focused ? 1 : 1
                 }}
               />
             </View>

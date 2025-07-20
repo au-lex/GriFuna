@@ -1,3 +1,4 @@
+import { Colors } from '@/constants/Colors';
 import React from 'react';
 import {
   View,
@@ -153,7 +154,7 @@ const   MyEvents: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1625',
+    backgroundColor: Colors.bSec,
   },
   scrollView: {
     flex: 1,
@@ -170,8 +171,8 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#ffffff',
+fontFamily: 'mb',
+
   },
   seeAllText: {
     fontSize: 14,
@@ -215,7 +216,7 @@ const styles = StyleSheet.create({
   },
   eventTitle: {
     fontSize: 16,
-    fontWeight: '600',
+fontFamily: 'mb',
     color: '#ffffff',
     marginBottom: 6,
     lineHeight: 20,
@@ -237,7 +238,7 @@ const styles = StyleSheet.create({
   freeText: {
     color: '#ffffff',
     fontSize: 12,
-    fontWeight: '600',
+fontFamily: 'mb',
   },
   priceTag: {
     backgroundColor: '#f59e0b',
@@ -248,7 +249,7 @@ const styles = StyleSheet.create({
   priceText: {
     color: '#ffffff',
     fontSize: 12,
-    fontWeight: '600',
+fontFamily: 'mb',
   },
 });
 
