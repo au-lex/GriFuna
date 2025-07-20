@@ -11,7 +11,7 @@ import { Text, View } from 'react-native';
 export default function Index() {
   return (
     <>
-    <SafeLayout>
+    <SafeLayout backgroundColor='#1a1625' statusBarBackgroundColor='#1a1625' statusBarStyle='light'>
 
    
 

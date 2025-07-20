@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: '#212121',
+    backgroundColor: Colors.card,
   },
   backgroundImage: {
     flex: 1,

@@ -1,3 +1,4 @@
+import { Colors } from '@/constants/Colors';
 import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
@@ -34,6 +35,16 @@ interface Event {
   category: string;
   attendees?: number;
   isPopular?: boolean;
+  description?: string;
+}
+
+interface Ad {
+  id: string;
+  title: string;
+  subtitle: string;
+  image: string;
+  cta: string;
+  backgroundColor?: string;
 }
 
 // Sample slider data
@@ -43,7 +54,7 @@ const sliderData: SliderItem[] = [
     title: 'Summer Music Festival',
     subtitle: 'Join us for an unforgettable weekend',
     image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=250&fit=crop',
-    gradient: ['#8b5cf6', '#ec4899'],
+    gradient: [Colors.acc, '#ec4899'],
   },
   {
     id: '2',
@@ -101,6 +112,7 @@ const normalEvents: Event[] = [
     price: '$35.00',
     category: 'Networking',
     attendees: 80,
+    description: 'Connect with fellow entrepreneurs and innovators in this exciting networking event. Share ideas, build partnerships, and grow your startup network.',
   },
   {
     id: 'n2',
@@ -112,6 +124,7 @@ const normalEvents: Event[] = [
     price: '$65.00',
     category: 'Workshop',
     attendees: 25,
+    description: 'Master the art of photography with hands-on training from professional photographers. Learn composition, lighting, and editing techniques.',
   },
   {
     id: 'n3',
@@ -123,6 +136,7 @@ const normalEvents: Event[] = [
     price: '$85.00',
     category: 'Food',
     attendees: 60,
+    description: 'Indulge in an exquisite culinary journey featuring local wines and gourmet dishes prepared by renowned chefs from around the island.',
   },
   {
     id: 'n4',
@@ -134,6 +148,27 @@ const normalEvents: Event[] = [
     isFree: true,
     category: 'Wellness',
     attendees: 45,
+    description: 'Start your day with peaceful yoga sessions surrounded by nature. All skill levels welcome. Bring your own mat and water bottle.',
+  },
+];
+
+// Sample ads data
+const adsData: Ad[] = [
+  {
+    id: 'ad1',
+    title: 'Create Your Own Event',
+    subtitle: 'Host amazing events and reach thousands of people',
+    image: 'https://images.unsplash.com/photo-1556761175-b413da4baf72?w=300&h=150&fit=crop',
+    cta: 'Get Started',
+    backgroundColor: '#6366f1',
+  },
+  {
+    id: 'ad2',
+    title: 'Premium Membership',
+    subtitle: 'Unlock exclusive events and early bird discounts',
+    image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=300&h=150&fit=crop',
+    cta: 'Upgrade Now',
+    backgroundColor: '#ec4899',
   },
 ];
 
@@ -246,43 +281,72 @@ const FeaturedEventCard: React.FC<{ event: Event; onPress?: () => void }> = ({ e
   );
 };
 
-// Regular Event Card Component
+// Enhanced Event Card Component with Date and Larger Image
 const EventCard: React.FC<{ event: Event; onPress?: () => void }> = ({ event, onPress }) => {
   return (
     <TouchableOpacity style={styles.eventCard} onPress={onPress}>
-      <View style={styles.dateContainer}>
+      {/* Absolute Date Container */}
+      <View style={styles.absoluteDateContainer}>
         <Text style={styles.dateNumber}>{event.date}</Text>
         <Text style={styles.dateMonth}>{event.month}</Text>
       </View>
       
+      {/* Large Image - Takes about 50% of the card */}
       <Image source={{ uri: event.image }} style={styles.eventImage} />
       
+      {/* Event Content */}
       <View style={styles.eventContent}>
         <View style={styles.eventHeader}>
           <View style={styles.categoryTag}>
             <Text style={styles.categoryText}>{event.category}</Text>
           </View>
+          <TouchableOpacity style={styles.saveButton}>
+            <Text style={styles.saveIcon}>🤍</Text>
+          </TouchableOpacity>
         </View>
         
         <Text style={styles.eventTitle}>{event.title}</Text>
         <Text style={styles.eventLocation}>📍 {event.location}</Text>
         
+        {/* Description */}
+        {event.description && (
+          <Text style={styles.eventDescription} numberOfLines={2}>
+            {event.description}
+          </Text>
+        )}
+        
         <View style={styles.eventFooter}>
           <Text style={styles.attendeesText}>👥 {event.attendees}</Text>
+          
+          <View style={styles.priceContainer}>
+            {event.isFree ? (
+              <View style={styles.freeTag}>
+                <Text style={styles.freeText}>FREE</Text>
+              </View>
+            ) : (
+              <View style={styles.priceTag}>
+                <Text style={styles.priceText}>{event.price}</Text>
+              </View>
+            )}
+          </View>
         </View>
       </View>
-      
-      <View style={styles.priceContainer}>
-        {event.isFree ? (
-          <View style={styles.freeTag}>
-            <Text style={styles.freeText}>FREE</Text>
-          </View>
-        ) : (
-          <View style={styles.priceTag}>
-            <Text style={styles.priceText}>{event.price}</Text>
-          </View>
-        )}
+    </TouchableOpacity>
+  );
+};
+
+// Ad Card Component
+const AdCard: React.FC<{ ad: Ad; onPress?: () => void }> = ({ ad, onPress }) => {
+  return (
+    <TouchableOpacity style={[styles.adCard, { backgroundColor: ad.backgroundColor || '#6366f1' }]} onPress={onPress}>
+      <View style={styles.adContent}>
+        <Text style={styles.adTitle}>{ad.title}</Text>
+        <Text style={styles.adSubtitle}>{ad.subtitle}</Text>
+        <TouchableOpacity style={styles.adButton}>
+          <Text style={styles.adButtonText}>{ad.cta}</Text>
+        </TouchableOpacity>
       </View>
+      <Image source={{ uri: ad.image }} style={styles.adImage} />
     </TouchableOpacity>
   );
 };
@@ -307,16 +371,6 @@ const SectionHeader: React.FC<{ title: string; showSeeAll?: boolean; onSeeAll?: 
 const HomeScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <View>
-          <Text style={styles.greeting}>Good evening! 👋</Text>
-          <Text style={styles.headerTitle}>Discover Events</Text>
-        </View>
-        <TouchableOpacity style={styles.notificationButton}>
-          <Text style={styles.notificationIcon}>🔔</Text>
-        </TouchableOpacity>
-      </View>
-
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         {/* Image Slider */}
         <ImageSlider data={sliderData} />
@@ -340,6 +394,25 @@ const HomeScreen: React.FC = () => {
           </ScrollView>
         </View>
         
+        {/* Ad Section */}
+        <View style={styles.section}>
+          <SectionHeader 
+            title="Discover More" 
+            showSeeAll={false}
+          />
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View style={styles.adContainer}>
+              {adsData.map((ad) => (
+                <AdCard
+                  key={ad.id}
+                  ad={ad}
+                  onPress={() => console.log(`Pressed ad: ${ad.title}`)}
+                />
+              ))}
+            </View>
+          </ScrollView>
+        </View>
+        
         {/* Normal Events Section */}
         <View style={styles.section}>
           <SectionHeader 
@@ -354,8 +427,7 @@ const HomeScreen: React.FC = () => {
             />
           ))}
         </View>
-        
-        <View style={styles.bottomSpacing} />
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -364,36 +436,7 @@ const HomeScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1625',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingTop: 10,
-    paddingBottom: 20,
-  },
-  greeting: {
-    fontSize: 16,
-    color: '#a0a0a0',
-    marginBottom: 4,
-  },
-  headerTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#ffffff',
-  },
-  notificationButton: {
-    width: 44,
-    height: 44,
-    backgroundColor: '#2a2438',
-    borderRadius: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  notificationIcon: {
-    fontSize: 20,
+    backgroundColor: Colors.bg,
   },
   scrollView: {
     flex: 1,
@@ -403,22 +446,23 @@ const styles = StyleSheet.create({
   sliderContainer: {
     height: 200,
     marginBottom: 30,
+    marginTop: 5,
   },
   sliderItem: {
     width: screenWidth,
     height: 200,
-    paddingHorizontal: 20,
+    paddingHorizontal: 12,
   },
   sliderImage: {
     width: '100%',
     height: '100%',
-    borderRadius: 20,
+    borderRadius: 10,
   },
   sliderOverlay: {
     position: 'absolute',
     top: 0,
-    left: 20,
-    right: 20,
+    left: 10,
+    right: 5,
     bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
     borderRadius: 20,
@@ -431,18 +475,18 @@ const styles = StyleSheet.create({
   },
   sliderTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontFamily: 'mb',
     color: '#ffffff',
-    marginBottom: 8,
   },
   sliderSubtitle: {
     fontSize: 16,
     color: '#ffffff',
     opacity: 0.9,
     marginBottom: 16,
+    fontFamily: 'mm',
   },
   sliderButton: {
-    backgroundColor: '#8b5cf6',
+    backgroundColor: Colors.acc,
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 20,
@@ -451,7 +495,7 @@ const styles = StyleSheet.create({
   sliderButtonText: {
     color: '#ffffff',
     fontSize: 14,
-    fontWeight: '600',
+    fontFamily: 'mb',
   },
   pagination: {
     flexDirection: 'row',
@@ -470,7 +514,7 @@ const styles = StyleSheet.create({
   
   // Section Styles
   section: {
-    marginBottom: 30,
+    marginBottom: 20,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -480,14 +524,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: '700',
+    fontSize: 15,
+    fontFamily: 'mb',
     color: '#ffffff',
   },
   seeAllText: {
     fontSize: 14,
-    color: '#8b5cf6',
-    fontWeight: '600',
+    color: Colors.acc,
+    fontFamily: 'ol',
   },
   
   // Featured Event Styles
@@ -498,7 +542,7 @@ const styles = StyleSheet.create({
   featuredCard: {
     width: 280,
     backgroundColor: '#2a2438',
-    borderRadius: 20,
+    borderRadius: 10,
     marginRight: 16,
     overflow: 'hidden',
   },
@@ -518,7 +562,7 @@ const styles = StyleSheet.create({
   popularText: {
     color: '#ffffff',
     fontSize: 12,
-    fontWeight: '700',
+    fontFamily: 'mb',
   },
   featuredDateContainer: {
     position: 'absolute',
@@ -532,7 +576,7 @@ const styles = StyleSheet.create({
   },
   featuredDateNumber: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily: 'mb',
     color: '#ffffff',
     lineHeight: 20,
   },
@@ -551,15 +595,12 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   categoryTag: {
-    backgroundColor: '#8b5cf6',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
     borderRadius: 12,
   },
   categoryText: {
-    color: '#ffffff',
+    color: Colors.acc,
     fontSize: 12,
-    fontWeight: '600',
+    fontFamily: 'mm',
   },
   saveButton: {
     padding: 4,
@@ -568,8 +609,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   featuredTitle: {
-    fontSize: 18,
-    fontWeight: '700',
+    fontSize: 13,
+    fontFamily: 'mb',
     color: '#ffffff',
     marginBottom: 8,
     lineHeight: 22,
@@ -577,7 +618,8 @@ const styles = StyleSheet.create({
   featuredLocation: {
     fontSize: 14,
     color: '#a0a0a0',
-    marginBottom: 16,
+    marginBottom: 13,
+    fontFamily: 'mm',
   },
   featuredFooter: {
     flexDirection: 'row',
@@ -587,63 +629,94 @@ const styles = StyleSheet.create({
   attendeesText: {
     fontSize: 14,
     color: '#a0a0a0',
+    fontFamily: 'ol',
   },
   
-  // Regular Event Styles
+  // Enhanced Event Styles with Date and Large Image
   eventCard: {
     flexDirection: 'row',
     backgroundColor: '#2a2438',
-    borderRadius: 16,
-    padding: 16,
+    borderRadius: 12,
     marginHorizontal: 20,
-    marginBottom: 12,
-    alignItems: 'center',
+    marginBottom: 16,
+    alignItems: 'stretch',
+    overflow: 'hidden',
+    minHeight: 140,
+    position: 'relative',
   },
   dateContainer: {
     alignItems: 'center',
-    marginRight: 16,
-    minWidth: 40,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    paddingHorizontal: 16,
+    minWidth: 60,
+  },
+  absoluteDateContainer: {
+    position: 'absolute',
+    top: 12,
+    left: 12,
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 10,
+    zIndex: 10,
   },
   dateNumber: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily: 'mb',
     color: '#ffffff',
     lineHeight: 24,
   },
   dateMonth: {
-    fontSize: 12,
-    color: '#a0a0a0',
+    fontSize: 10,
+    color: '#ffffff',
     fontWeight: '500',
+    textTransform: 'uppercase',
   },
   eventImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 12,
-    marginRight: 16,
+    width: 150,
+    height: '100%',
+    minHeight: 140,
   },
   eventContent: {
     flex: 1,
+    padding: 16,
+    justifyContent: 'space-between',
   },
   eventHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 8,
   },
   eventTitle: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 15,
+    fontFamily: 'mb',
     color: '#ffffff',
-    marginBottom: 4,
+    marginBottom: 6,
     lineHeight: 20,
   },
   eventLocation: {
     fontSize: 13,
     color: '#a0a0a0',
-    marginBottom: 4,
+    marginBottom: 8,
+    fontFamily: 'mm',
+  },
+  eventDescription: {
+    fontSize: 12,
+    color: '#b0b0b0',
+    fontFamily: 'mm',
+    lineHeight: 16,
+    marginBottom: 12,
   },
   eventFooter: {
-    marginTop: 4,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   priceContainer: {
-    marginLeft: 12,
+    // marginLeft: 12,
   },
   freeTag: {
     backgroundColor: '#10b981',
@@ -654,21 +727,66 @@ const styles = StyleSheet.create({
   freeText: {
     color: '#ffffff',
     fontSize: 12,
-    fontWeight: '600',
+    fontFamily: 'mb',
   },
   priceTag: {
-    backgroundColor: '#f59e0b',
+    backgroundColor: Colors.acc,
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 16,
+    borderRadius: 6,
   },
   priceText: {
     color: '#ffffff',
     fontSize: 12,
-    fontWeight: '600',
+    fontFamily: 'mb',
   },
-  bottomSpacing: {
-    height: 20,
+  
+  // Ad Styles
+  adContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+  },
+  adCard: {
+    width: 280,
+    height: 140,
+    borderRadius: 12,
+    marginRight: 16,
+    flexDirection: 'row',
+    overflow: 'hidden',
+  },
+  adContent: {
+    flex: 1,
+    padding: 16,
+    justifyContent: 'space-between',
+  },
+  adTitle: {
+    fontSize: 12,
+    fontFamily: 'mb',
+    color: '#ffffff',
+    // marginBottom: 4,
+  },
+  adSubtitle: {
+    fontSize: 12,
+    color: '#ffffff',
+    opacity: 0.8,
+    fontFamily: 'mm',
+    lineHeight: 16,
+  },
+  adButton: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+    alignSelf: 'flex-start',
+  },
+  adButtonText: {
+    color: '#ffffff',
+    fontSize: 12,
+    fontFamily: 'mb',
+  },
+  adImage: {
+    width: 100,
+    height: '100%',
   },
 });
 

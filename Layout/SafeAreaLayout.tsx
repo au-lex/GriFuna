@@ -15,7 +15,7 @@ interface SafeLayoutProps {
 const SafeLayout: React.FC<SafeLayoutProps> = ({
   children,
   backgroundColor = '#Fff',
-  statusBarStyle = 'dark',
+  statusBarStyle = 'light',
   statusBarBackgroundColor = '#FFFFFF',
   style,
 }) => {
