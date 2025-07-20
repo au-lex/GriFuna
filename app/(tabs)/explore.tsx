@@ -1,5 +1,6 @@
 
 import SafeLayout from '@/Layout/SafeAreaLayout';
+import MyEvents from '@/Screens/USERS/MyEvent/MyEvent';
 import { Text, View } from 'react-native';
 
 
@@ -13,8 +14,8 @@ export default function Index() {
 
    
 
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text style={{}}>Home Screen</Text>
+      <View style={{ flex: 1, }}>
+      <MyEvents />
       </View>
   
     </SafeLayout>
