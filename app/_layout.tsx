@@ -26,6 +26,8 @@ ob: require('../assets/fonts/OpenSans-Bold.ttf'),
         <Stack.Screen name='onboarding/Index' options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
+        <Stack.Screen name="eventDetails/Index" options={{ headerShown: false }} />
+        <Stack.Screen name= "getTicket/Index" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>

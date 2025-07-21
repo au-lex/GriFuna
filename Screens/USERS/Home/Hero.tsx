@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 const { width: screenWidth } = Dimensions.get('window');
+import { useRouter } from 'expo-router';
 
 // Type definitions
 interface SliderItem {
@@ -174,6 +175,7 @@ const adsData: Ad[] = [
 
 // Slider Component
 const ImageSlider: React.FC<{ data: SliderItem[] }> = ({ data }) => {
+  const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
 
@@ -232,8 +234,9 @@ const ImageSlider: React.FC<{ data: SliderItem[] }> = ({ data }) => {
 
 // Featured Event Card Component
 const FeaturedEventCard: React.FC<{ event: Event; onPress?: () => void }> = ({ event, onPress }) => {
+  const router = useRouter(); 
   return (
-    <TouchableOpacity style={styles.featuredCard} onPress={onPress}>
+    <TouchableOpacity style={styles.featuredCard} onPress={ () => router.push('/eventDetails/Index')}>
       <Image source={{ uri: event.image }} style={styles.featuredImage} />
       
       {event.isPopular && (
