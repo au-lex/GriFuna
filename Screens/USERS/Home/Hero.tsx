@@ -54,7 +54,7 @@ const sliderData: SliderItem[] = [
     id: '1',
     title: 'Summer Music Festival',
     subtitle: 'Join us for an unforgettable weekend',
-    image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=250&fit=crop',
+    image: 'https://i.pinimg.com/736x/73/c7/79/73c77971339ff256490cedac065cb75d.jpg',
     gradient: [Colors.acc, '#ec4899'],
   },
   {
@@ -81,7 +81,7 @@ const featuredEvents: Event[] = [
     date: '25',
     month: 'Jul',
     location: 'Convention Center, Hawaii',
-    image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=300&h=200&fit=crop',
+    image: 'https://i.pinimg.com/736x/95/e5/12/95e5123c42487e16ff78847fcee936dd.jpg',
     price: '$125.00',
     category: 'Business',
     attendees: 500,
@@ -93,7 +93,7 @@ const featuredEvents: Event[] = [
     date: '02',
     month: 'Aug',
     location: 'Cultural District, Hawaii',
-    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=300&h=200&fit=crop',
+    image: 'https://i.pinimg.com/736x/4f/13/31/4f1331a06474465b3171f2ca4184edfc.jpg',
     isFree: true,
     category: 'Culture',
     attendees: 1200,
@@ -109,7 +109,7 @@ const normalEvents: Event[] = [
     date: '18',
     month: 'Jul',
     location: 'Innovation Hub, Hawaii',
-    image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=300&h=200&fit=crop',
+    image: 'https://i.pinimg.com/1200x/52/e9/3a/52e93af2dec0bcf6db8ee3213c8dcf3b.jpg',
     price: '$35.00',
     category: 'Networking',
     attendees: 80,
@@ -121,7 +121,7 @@ const normalEvents: Event[] = [
     date: '22',
     month: 'Jul',
     location: 'Studio Space, Hawaii',
-    image: 'https://images.unsplash.com/photo-1542038784456-1ea8e732b2b6?w=300&h=200&fit=crop',
+    image: 'https://i.pinimg.com/736x/8e/c1/f9/8ec1f9438afa68e8f2efd696219588f8.jpg',
     price: '$65.00',
     category: 'Workshop',
     attendees: 25,
@@ -133,7 +133,7 @@ const normalEvents: Event[] = [
     date: '28',
     month: 'Jul',
     location: 'Gourmet Plaza, Hawaii',
-    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=300&h=200&fit=crop',
+    image: 'https://i.pinimg.com/736x/95/e5/12/95e5123c42487e16ff78847fcee936dd.jpg',
     price: '$85.00',
     category: 'Food',
     attendees: 60,
@@ -145,7 +145,7 @@ const normalEvents: Event[] = [
     date: '30',
     month: 'Jul',
     location: 'Central Park, Hawaii',
-    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=300&h=200&fit=crop',
+    image: 'https://i.pinimg.com/736x/4f/13/31/4f1331a06474465b3171f2ca4184edfc.jpg',
     isFree: true,
     category: 'Wellness',
     attendees: 45,
@@ -175,7 +175,7 @@ const adsData: Ad[] = [
 
 // Slider Component
 const ImageSlider: React.FC<{ data: SliderItem[] }> = ({ data }) => {
-  const router = useRouter();
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
 
@@ -286,8 +286,9 @@ const FeaturedEventCard: React.FC<{ event: Event; onPress?: () => void }> = ({ e
 
 // Enhanced Event Card Component with Date and Larger Image
 const EventCard: React.FC<{ event: Event; onPress?: () => void }> = ({ event, onPress }) => {
+  const router = useRouter(); 
   return (
-    <TouchableOpacity style={styles.eventCard} onPress={onPress}>
+    <TouchableOpacity style={styles.eventCard} onPress={() => router.push('/eventDetails/Index')}>
       {/* Absolute Date Container */}
       <View style={styles.absoluteDateContainer}>
         <Text style={styles.dateNumber}>{event.date}</Text>
@@ -426,7 +427,7 @@ const HomeScreen: React.FC = () => {
             <EventCard
               key={event.id}
               event={event}
-              onPress={() => console.log(`Pressed event: ${event.title}`)}
+           
             />
           ))}
         </View>
@@ -478,7 +479,7 @@ const styles = StyleSheet.create({
   },
   sliderTitle: {
     fontSize: 24,
-    fontFamily: 'mb',
+fontFamily: "ob",
     color: '#ffffff',
   },
   sliderSubtitle: {
@@ -486,7 +487,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     opacity: 0.9,
     marginBottom: 16,
-    fontFamily: 'mm',
+fontFamily: "os",
   },
   sliderButton: {
     backgroundColor: Colors.acc,
@@ -498,7 +499,7 @@ const styles = StyleSheet.create({
   sliderButtonText: {
     color: '#ffffff',
     fontSize: 14,
-    fontFamily: 'mb',
+fontFamily: "ob",
   },
   pagination: {
     flexDirection: 'row',
@@ -528,7 +529,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 15,
-    fontFamily: 'mb',
+fontFamily: "ob",
     color: '#ffffff',
   },
   seeAllText: {
@@ -565,7 +566,7 @@ const styles = StyleSheet.create({
   popularText: {
     color: '#ffffff',
     fontSize: 12,
-    fontFamily: 'mb',
+fontFamily: "ob",
   },
   featuredDateContainer: {
     position: 'absolute',
@@ -579,7 +580,7 @@ const styles = StyleSheet.create({
   },
   featuredDateNumber: {
     fontSize: 18,
-    fontFamily: 'mb',
+fontFamily: "ob",
     color: '#ffffff',
     lineHeight: 20,
   },
@@ -603,7 +604,7 @@ const styles = StyleSheet.create({
   categoryText: {
     color: Colors.acc,
     fontSize: 12,
-    fontFamily: 'mm',
+fontFamily: "os",
   },
   saveButton: {
     padding: 4,
@@ -613,7 +614,7 @@ const styles = StyleSheet.create({
   },
   featuredTitle: {
     fontSize: 13,
-    fontFamily: 'mb',
+fontFamily: "ob",
     color: '#ffffff',
     marginBottom: 8,
     lineHeight: 22,
@@ -622,7 +623,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#a0a0a0',
     marginBottom: 13,
-    fontFamily: 'mm',
+fontFamily: "os",
   },
   featuredFooter: {
     flexDirection: 'row',
@@ -667,7 +668,7 @@ const styles = StyleSheet.create({
   },
   dateNumber: {
     fontSize: 20,
-    fontFamily: 'mb',
+fontFamily: "ob",
     color: '#ffffff',
     lineHeight: 24,
   },
@@ -695,7 +696,7 @@ const styles = StyleSheet.create({
   },
   eventTitle: {
     fontSize: 15,
-    fontFamily: 'mb',
+fontFamily: "ob",
     color: '#ffffff',
     marginBottom: 6,
     lineHeight: 20,
@@ -704,12 +705,12 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#a0a0a0',
     marginBottom: 8,
-    fontFamily: 'mm',
+fontFamily: "os",
   },
   eventDescription: {
     fontSize: 12,
     color: '#b0b0b0',
-    fontFamily: 'mm',
+fontFamily: "os",
     lineHeight: 16,
     marginBottom: 12,
   },
@@ -730,7 +731,7 @@ const styles = StyleSheet.create({
   freeText: {
     color: '#ffffff',
     fontSize: 12,
-    fontFamily: 'mb',
+fontFamily: "ob",
   },
   priceTag: {
     backgroundColor: Colors.acc,
@@ -741,7 +742,7 @@ const styles = StyleSheet.create({
   priceText: {
     color: '#ffffff',
     fontSize: 12,
-    fontFamily: 'mb',
+fontFamily: "ob",
   },
   
   // Ad Styles
@@ -764,7 +765,7 @@ const styles = StyleSheet.create({
   },
   adTitle: {
     fontSize: 12,
-    fontFamily: 'mb',
+fontFamily: "ob",
     color: '#ffffff',
     // marginBottom: 4,
   },
@@ -772,7 +773,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#ffffff',
     opacity: 0.8,
-    fontFamily: 'mm',
+fontFamily: "os",
     lineHeight: 16,
   },
   adButton: {
@@ -785,7 +786,7 @@ const styles = StyleSheet.create({
   adButtonText: {
     color: '#ffffff',
     fontSize: 12,
-    fontFamily: 'mb',
+fontFamily: "ob",
   },
   adImage: {
     width: 100,

@@ -154,7 +154,7 @@ const   MyEvents: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.bSec,
+    backgroundColor: Colors.bg,
   },
   scrollView: {
     flex: 1,

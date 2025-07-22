@@ -117,7 +117,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="message"
         options={{
-          title: 'Messages',
+          title: 'Tickets',
         }}
       />
       <Tabs.Screen
