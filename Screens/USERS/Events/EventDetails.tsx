@@ -67,7 +67,7 @@ const EventDetailsScreen: React.FC = () => {
             {/* Event Title Overlay */}
             <View style={styles.eventTitleContainer}>
               <View style={styles.inviteButton}>
-                <Text style={styles.inviteText}>Invite</Text>
+                <Text style={styles.inviteText}>Share</Text>
               </View>
             </View>
           </ImageBackground>
@@ -301,7 +301,9 @@ fontFamily: "os",
     fontFamily: "ol",
   },
   calendarButton: {
-    backgroundColor: Colors.acc,
+  
+    borderWidth: 1,
+    borderColor: Colors.acc,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
@@ -315,7 +317,9 @@ fontFamily: "os",
 fontFamily: "os",
   },
   locationButton: {
-    backgroundColor: Colors.acc,
+
+    borderWidth: 1,
+    borderColor: Colors.acc,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
@@ -411,7 +415,7 @@ fontFamily: "os",
   bottomContainer: {
     padding: 20,
     backgroundColor: '#1a1a2e',
-    borderTopWidth: 1,
+    borderTopWidth: 0.6,
     borderTopColor: '#374151',
   },
   getTicketButton: {
