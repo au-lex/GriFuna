@@ -1,5 +1,7 @@
+import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import SafeLayout from '@/Layout/SafeAreaLayout';
+import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import {
   View,
@@ -8,13 +10,14 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  SafeAreaView,
+
   Dimensions,
   TextInput,
   Alert,
 } from 'react-native';
 
 const { width: screenWidth } = Dimensions.get('window');
+
 
 // Type definitions
 interface TicketType {
@@ -48,7 +51,7 @@ const eventData: Event = {
   date: '25',
   month: 'Jul',
   location: 'Convention Center, Hawaii',
-  image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=400&h=250&fit=crop',
+  image: 'https://i.pinimg.com/1200x/52/e9/3a/52e93af2dec0bcf6db8ee3213c8dcf3b.jpg',
   organizer: 'Leadership Institute',
   category: 'Business',
   description: 'Join industry leaders and innovators for an inspiring day of keynotes, workshops, and networking opportunities.',
@@ -88,13 +91,13 @@ const ticketTypes: TicketType[] = [
 ];
 
 // Ticket Type Card Component
-const TicketTypeCard: React.FC<{ 
-  ticket: TicketType; 
-  quantity: number; 
+const TicketTypeCard: React.FC<{
+  ticket: TicketType;
+  quantity: number;
   onQuantityChange: (id: string, quantity: number) => void;
 }> = ({ ticket, quantity, onQuantityChange }) => {
   const hasDiscount = ticket.originalPrice && ticket.originalPrice > ticket.price;
-  const discountPercent = hasDiscount 
+  const discountPercent = hasDiscount
     ? Math.round(((ticket.originalPrice! - ticket.price) / ticket.originalPrice!) * 100)
     : 0;
 
@@ -105,13 +108,13 @@ const TicketTypeCard: React.FC<{
           <Text style={styles.popularText}>🌟 POPULAR</Text>
         </View>
       )}
-      
+
       <View style={styles.ticketHeader}>
         <View>
           <Text style={styles.ticketName}>{ticket.name}</Text>
           <Text style={styles.ticketDescription}>{ticket.description}</Text>
         </View>
-        
+
         <View style={styles.priceSection}>
           <View style={styles.priceContainer}>
             <Text style={styles.currentPrice}>${ticket.price}</Text>
@@ -144,20 +147,20 @@ const TicketTypeCard: React.FC<{
             {ticket.availableQuantity} tickets remaining
           </Text>
         </View>
-        
+
         <View style={styles.quantitySelector}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[styles.quantityButton, { opacity: quantity > 0 ? 1 : 0.5 }]}
             onPress={() => quantity > 0 && onQuantityChange(ticket.id, quantity - 1)}
           >
             <Text style={styles.quantityButtonText}>−</Text>
           </TouchableOpacity>
-          
+
           <Text style={styles.quantityText}>{quantity}</Text>
-          
-          <TouchableOpacity 
-            style={[styles.quantityButton, { 
-              opacity: quantity < ticket.availableQuantity && quantity < 10 ? 1 : 0.5 
+
+          <TouchableOpacity
+            style={[styles.quantityButton, {
+              opacity: quantity < ticket.availableQuantity && quantity < 10 ? 1 : 0.5
             }]}
             onPress={() => {
               if (quantity < ticket.availableQuantity && quantity < 10) {
@@ -192,8 +195,8 @@ const PromoCodeSection: React.FC<{
           placeholderTextColor="#666"
           editable={!promoApplied}
         />
-        <TouchableOpacity 
-          style={[styles.promoButton, promoApplied && styles.promoButtonSuccess]} 
+        <TouchableOpacity
+          style={[styles.promoButton, promoApplied && styles.promoButtonSuccess]}
           onPress={onApplyPromo}
           disabled={promoApplied}
         >
@@ -228,12 +231,12 @@ const OrderSummary: React.FC<{
   return (
     <View style={styles.summarySection}>
       <Text style={styles.summaryTitle}>Order Summary</Text>
-      
+
       {Object.entries(selectedTickets).map(([ticketId, quantity]) => {
         if (quantity === 0) return null;
         const ticket = ticketTypes.find(t => t.id === ticketId);
         if (!ticket) return null;
-        
+
         return (
           <View key={ticketId} style={styles.summaryRow}>
             <Text style={styles.summaryItemText}>
@@ -245,28 +248,28 @@ const OrderSummary: React.FC<{
           </View>
         );
       })}
-      
+
       <View style={styles.summaryDivider} />
-      
+
       <View style={styles.summaryRow}>
         <Text style={styles.summaryItemText}>Subtotal</Text>
         <Text style={styles.summaryItemPrice}>${subtotal.toFixed(2)}</Text>
       </View>
-      
+
       <View style={styles.summaryRow}>
         <Text style={styles.summaryItemText}>Service fee</Text>
         <Text style={styles.summaryItemPrice}>${serviceFee.toFixed(2)}</Text>
       </View>
-      
+
       {promoDiscount > 0 && (
         <View style={styles.summaryRow}>
           <Text style={styles.summaryItemTextDiscount}>Promo discount</Text>
           <Text style={styles.summaryItemPriceDiscount}>-${promoDiscount.toFixed(2)}</Text>
         </View>
       )}
-      
+
       <View style={styles.summaryDivider} />
-      
+
       <View style={styles.summaryRow}>
         <Text style={styles.summaryTotalText}>Total</Text>
         <Text style={styles.summaryTotalPrice}>${total.toFixed(2)}</Text>
@@ -302,7 +305,7 @@ const GetTicketScreen: React.FC = () => {
 
   const handleProceedToCheckout = () => {
     const totalTickets = Object.values(selectedTickets).reduce((sum, qty) => sum + qty, 0);
-    
+
     if (totalTickets === 0) {
       Alert.alert('No Tickets Selected', 'Please select at least one ticket to proceed.');
       return;
@@ -314,99 +317,102 @@ const GetTicketScreen: React.FC = () => {
       selectedTickets,
       promoDiscount,
     });
-    
+
     Alert.alert('Checkout', `Proceeding with ${totalTickets} ticket${totalTickets > 1 ? 's' : ''}!`);
   };
 
-  const handleGoBack = () => {
-    // This will be connected to navigation later
-    console.log('Going back');
-    Alert.alert('Back', 'Back button pressed');
-  };
 
   const totalTickets = Object.values(selectedTickets).reduce((sum, qty) => sum + qty, 0);
+
+  const router = useRouter();
 
   return (
     <SafeLayout>
 
 
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={handleGoBack} style={styles.backButton}>
-          <Text style={styles.backButtonText}>← Back</Text>
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Get Tickets</Text>
-        <View style={styles.headerRight} />
-      </View>
+      <View style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
 
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        {/* Event Info Header */}
-        <View style={styles.eventHeader}>
-          <Image source={{ uri: eventData.image }} style={styles.eventImage} />
-          <View style={styles.eventInfo}>
-            <View style={styles.eventDateContainer}>
-              <Text style={styles.eventDateNumber}>{eventData.date}</Text>
-              <Text style={styles.eventDateMonth}>{eventData.month}</Text>
-            </View>
-            <View style={styles.eventDetails}>
-              <Text style={styles.eventTitle}>{eventData.title}</Text>
-              <Text style={styles.eventLocation}>📍 {eventData.location}</Text>
-              <Text style={styles.eventOrganizer}>By {eventData.organizer}</Text>
+          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+            <Ionicons name="arrow-back" size={24} color="#fff" />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>Get Tickets</Text>
+          <View style={styles.headerRight} />
+        </View>
+
+        <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+          {/* Event Info Header */}
+          <View style={{paddingHorizontal: 20, paddingTop: 20,}}>
+
+     
+
+          <View style={styles.eventHeader}>
+            <Image source={{ uri: eventData.image }} style={styles.eventImage} />
+            <View style={styles.eventInfo}>
+              <View style={styles.eventDateContainer}>
+                <Text style={styles.eventDateNumber}>{eventData.date}</Text>
+                <Text style={styles.eventDateMonth}>{eventData.month}</Text>
+              </View>
+              <View style={styles.eventDetails}>
+                <Text style={styles.eventTitle}>{eventData.title}</Text>
+                <Text style={styles.eventLocation}>📍 {eventData.location}</Text>
+                <Text style={styles.eventOrganizer}>By {eventData.organizer}</Text>
+              </View>
             </View>
           </View>
-        </View>
+          </View>
 
-        {/* Ticket Types Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Select Tickets</Text>
-          {ticketTypes.map((ticket) => (
-            <TicketTypeCard
-              key={ticket.id}
-              ticket={ticket}
-              quantity={selectedTickets[ticket.id] || 0}
-              onQuantityChange={handleQuantityChange}
-            />
-          ))}
-        </View>
-
-        {/* Promo Code Section */}
-        {totalTickets > 0 && (
+          {/* Ticket Types Section */}
           <View style={styles.section}>
-            <PromoCodeSection
-              promoCode={promoCode}
-              onPromoCodeChange={setPromoCode}
-              onApplyPromo={handleApplyPromo}
-              promoApplied={promoApplied}
-            />
+            <Text style={styles.sectionTitle}>Select Tickets</Text>
+            {ticketTypes.map((ticket) => (
+              <TicketTypeCard
+                key={ticket.id}
+                ticket={ticket}
+                quantity={selectedTickets[ticket.id] || 0}
+                onQuantityChange={handleQuantityChange}
+              />
+            ))}
+          </View>
+
+          {/* Promo Code Section */}
+          {totalTickets > 0 && (
+            <View style={styles.section}>
+              <PromoCodeSection
+                promoCode={promoCode}
+                onPromoCodeChange={setPromoCode}
+                onApplyPromo={handleApplyPromo}
+                promoApplied={promoApplied}
+              />
+            </View>
+          )}
+
+          {/* Order Summary */}
+          <OrderSummary
+            selectedTickets={selectedTickets}
+            ticketTypes={ticketTypes}
+            promoDiscount={promoDiscount}
+          />
+
+          {/* Spacing for fixed button */}
+          <View style={styles.bottomSpacing} />
+        </ScrollView>
+
+        {/* Fixed Checkout Button */}
+        {totalTickets > 0 && (
+          <View style={styles.checkoutContainer}>
+            <View style={styles.checkoutInfo}>
+              <Text style={styles.checkoutTicketCount}>
+                {totalTickets} ticket{totalTickets > 1 ? 's' : ''} selected
+              </Text>
+            </View>
+            <TouchableOpacity style={styles.checkoutButton} onPress={handleProceedToCheckout}>
+              <Text style={styles.checkoutButtonText}>Proceed to Checkout</Text>
+            </TouchableOpacity>
           </View>
         )}
-
-        {/* Order Summary */}
-        <OrderSummary
-          selectedTickets={selectedTickets}
-          ticketTypes={ticketTypes}
-          promoDiscount={promoDiscount}
-        />
-
-        {/* Spacing for fixed button */}
-        <View style={styles.bottomSpacing} />
-      </ScrollView>
-
-      {/* Fixed Checkout Button */}
-      {totalTickets > 0 && (
-        <View style={styles.checkoutContainer}>
-          <View style={styles.checkoutInfo}>
-            <Text style={styles.checkoutTicketCount}>
-              {totalTickets} ticket{totalTickets > 1 ? 's' : ''} selected
-            </Text>
-          </View>
-          <TouchableOpacity style={styles.checkoutButton} onPress={handleProceedToCheckout}>
-            <Text style={styles.checkoutButtonText}>Proceed to Checkout</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-    </View>
+      </View>
     </SafeLayout>
   );
 };
@@ -414,7 +420,7 @@ const GetTicketScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1625', // Default dark background
+    backgroundColor: Colors.bg,
   },
   scrollView: {
     flex: 1,
@@ -434,14 +440,10 @@ const styles = StyleSheet.create({
   backButton: {
     padding: 4,
   },
-  backButtonText: {
-    color: '#6366f1', // Default accent color
-    fontSize: 16,
-    fontWeight: '500',
-  },
+
   headerTitle: {
     fontSize: 18,
-    fontWeight: '600',
+    fontFamily: "ob",
     color: '#ffffff',
   },
   headerRight: {
@@ -454,6 +456,7 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#2a2438',
     marginBottom: 20,
+    borderRadius: 10,
   },
   eventImage: {
     width: 80,
@@ -472,19 +475,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
     paddingHorizontal: 12,
     paddingVertical: 8,
-    borderRadius: 12,
+    borderRadius: 10,
     alignSelf: 'flex-start',
   },
   eventDateNumber: {
     fontSize: 20,
-    fontWeight: '600',
+    fontFamily: "ob",
     color: '#ffffff',
     lineHeight: 24,
   },
   eventDateMonth: {
     fontSize: 10,
     color: '#ffffff',
-    fontWeight: '500',
+    fontFamily: "os",
     textTransform: 'uppercase',
   },
   eventDetails: {
@@ -493,7 +496,7 @@ const styles = StyleSheet.create({
   },
   eventTitle: {
     fontSize: 16,
-    fontWeight: '600',
+    fontFamily: "ob",
     color: '#ffffff',
     marginBottom: 4,
     lineHeight: 22,
@@ -501,13 +504,13 @@ const styles = StyleSheet.create({
   eventLocation: {
     fontSize: 14,
     color: '#a0a0a0',
-    fontWeight: '400',
+    fontFamily: "os",
     marginBottom: 2,
   },
   eventOrganizer: {
     fontSize: 12,
-    color: '#666',
-    fontWeight: '300',
+    color: Colors.acc,
+fontFamily: "ol",
   },
 
   // Section Styles
@@ -517,30 +520,24 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: '600',
+    fontFamily: "ob",
     color: '#ffffff',
     marginBottom: 16,
   },
 
   // Ticket Card Styles
   ticketCard: {
-    backgroundColor: '#2a2438',
+    backgroundColor: Colors.card,
     borderRadius: 16,
     padding: 20,
-    marginBottom: 16,
+    marginBottom: 30,
     borderWidth: 2,
     position: 'relative',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+
   },
   popularBadge: {
     position: 'absolute',
+
     top: -8,
     left: 20,
     paddingHorizontal: 12,
@@ -558,7 +555,7 @@ const styles = StyleSheet.create({
   popularText: {
     color: '#ffffff',
     fontSize: 12,
-    fontWeight: '600',
+    fontFamily: "ob",
   },
   ticketHeader: {
     flexDirection: 'row',
@@ -568,14 +565,14 @@ const styles = StyleSheet.create({
   },
   ticketName: {
     fontSize: 18,
-    fontWeight: '600',
+    fontFamily: "ob",
     color: '#ffffff',
     marginBottom: 4,
   },
   ticketDescription: {
     fontSize: 14,
     color: '#a0a0a0',
-    fontWeight: '400',
+    fontFamily: "os",
     lineHeight: 20,
   },
   priceSection: {
@@ -586,17 +583,17 @@ const styles = StyleSheet.create({
   },
   currentPrice: {
     fontSize: 24,
-    fontWeight: '600',
-    color: '#ffffff',
+    fontFamily: "ob",
+    color: Colors.acc,
   },
   originalPrice: {
     fontSize: 16,
     color: '#666',
     textDecorationLine: 'line-through',
-    fontWeight: '400',
+    fontFamily: "os",
   },
   discountBadge: {
-    backgroundColor: '#ef4444',
+    backgroundColor: Colors.acc,
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 8,
@@ -605,7 +602,7 @@ const styles = StyleSheet.create({
   discountText: {
     color: '#ffffff',
     fontSize: 10,
-    fontWeight: '600',
+    fontFamily: "ob",
   },
 
   // Features Styles
@@ -618,15 +615,15 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   featureIcon: {
-    color: '#10b981',
+    color: Colors.acc,
     fontSize: 16,
     marginRight: 12,
-    fontWeight: '600',
+    fontFamily: "ob",
   },
   featureText: {
     color: '#ffffff',
     fontSize: 14,
-    fontWeight: '400',
+    fontFamily: "os",
     flex: 1,
   },
 
@@ -637,10 +634,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   availabilityInfo: {},
+
   availabilityText: {
-    color: '#666',
+    color: Colors.acc,
     fontSize: 12,
-    fontWeight: '300',
+fontFamily: "ol",
   },
   quantitySelector: {
     flexDirection: 'row',
@@ -660,12 +658,12 @@ const styles = StyleSheet.create({
   quantityButtonText: {
     color: '#ffffff',
     fontSize: 18,
-    fontWeight: '600',
+    fontFamily: "ob",
   },
   quantityText: {
     color: '#ffffff',
     fontSize: 16,
-    fontWeight: '600',
+    fontFamily: "ob",
     marginHorizontal: 20,
     minWidth: 20,
     textAlign: 'center',
@@ -687,7 +685,7 @@ const styles = StyleSheet.create({
   },
   promoTitle: {
     fontSize: 16,
-    fontWeight: '600',
+    fontFamily: "ob",
     color: '#ffffff',
     marginBottom: 12,
   },
@@ -703,7 +701,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     color: '#ffffff',
     fontSize: 16,
-    fontWeight: '400',
+    fontFamily: "os",
     borderWidth: 1,
     borderColor: 'transparent',
   },
@@ -712,7 +710,7 @@ const styles = StyleSheet.create({
     borderColor: '#10b981',
   },
   promoButton: {
-    backgroundColor: '#6366f1', // Default accent color
+    backgroundColor: Colors.acc,
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 12,
@@ -724,12 +722,12 @@ const styles = StyleSheet.create({
   promoButtonText: {
     color: '#ffffff',
     fontSize: 14,
-    fontWeight: '600',
+    fontFamily: "ob",
   },
   promoSuccessText: {
     color: '#10b981',
     fontSize: 14,
-    fontWeight: '400',
+    fontFamily: "os",
     marginTop: 8,
   },
 
@@ -751,7 +749,7 @@ const styles = StyleSheet.create({
   },
   summaryTitle: {
     fontSize: 18,
-    fontWeight: '600',
+    fontFamily: "ob",
     color: '#ffffff',
     marginBottom: 16,
   },
@@ -764,22 +762,22 @@ const styles = StyleSheet.create({
   summaryItemText: {
     color: '#ffffff',
     fontSize: 14,
-    fontWeight: '400',
+    fontFamily: "os",
   },
   summaryItemTextDiscount: {
     color: '#10b981',
     fontSize: 14,
-    fontWeight: '400',
+    fontFamily: "os",
   },
   summaryItemPrice: {
     color: '#ffffff',
     fontSize: 14,
-    fontWeight: '400',
+    fontFamily: "os",
   },
   summaryItemPriceDiscount: {
     color: '#10b981',
     fontSize: 14,
-    fontWeight: '400',
+    fontFamily: "os",
   },
   summaryDivider: {
     height: 1,
@@ -789,12 +787,12 @@ const styles = StyleSheet.create({
   summaryTotalText: {
     color: '#ffffff',
     fontSize: 18,
-    fontWeight: '600',
+    fontFamily: "ob",
   },
   summaryTotalPrice: {
     color: '#ffffff',
     fontSize: 18,
-    fontWeight: '600',
+    fontFamily: "ob",
   },
 
   // Checkout Styles
@@ -820,29 +818,22 @@ const styles = StyleSheet.create({
   checkoutTicketCount: {
     color: '#a0a0a0',
     fontSize: 14,
-    fontWeight: '400',
+    fontFamily: "os",
   },
   checkoutButton: {
-    backgroundColor: '#6366f1', // Default accent color
+    backgroundColor: Colors.acc,
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
-    shadowColor: '#6366f1',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+
   },
   checkoutButtonText: {
     color: '#ffffff',
     fontSize: 16,
-    fontWeight: '600',
+    fontFamily: "ob",
   },
   bottomSpacing: {
-    height: 100, // Space for fixed checkout button
+    // height: 100, // Space for fixed checkout button
   },
 });
 

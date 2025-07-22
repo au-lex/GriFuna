@@ -1,6 +1,6 @@
 
 import SafeLayout from '@/Layout/SafeAreaLayout';
-import MyEvents from '@/Screens/USERS/mY/MyEvent';
+import MyEvents from '@/Screens/USERS/Events/MyEvent';
 import { Text, View } from 'react-native';
 
 
