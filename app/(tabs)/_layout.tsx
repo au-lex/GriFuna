@@ -108,16 +108,18 @@ export default function TabLayout() {
           title: 'My Events',
         }}
       />
-      <Tabs.Screen
-        name="favourite"
-        options={{
-          title: 'Saved',
-        }}
-      />
+  
       <Tabs.Screen
         name="message"
         options={{
           title: 'Tickets',
+        }}
+      />
+
+<Tabs.Screen
+        name="favourite"
+        options={{
+          title: 'Bookmarks',
         }}
       />
       <Tabs.Screen
