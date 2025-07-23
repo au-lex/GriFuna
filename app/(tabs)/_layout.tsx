@@ -36,7 +36,7 @@ export default function TabLayout() {
         },
       
         tabBarLabelStyle: {
-          fontFamily: 'mm',
+          fontFamily: 'rm',
           fontSize: 11,
         },
       

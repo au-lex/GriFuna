@@ -417,7 +417,7 @@ const HomeScreen: React.FC = () => {
           </ScrollView>
         </View>
         
-        {/* Normal Events Section */}
+        {/* upcomig  Events Section */}
         <View style={styles.section}>
           <SectionHeader 
             title="Upcoming Events" 
@@ -479,7 +479,7 @@ const styles = StyleSheet.create({
   },
   sliderTitle: {
     fontSize: 24,
-fontFamily: "ob",
+   fontFamily: 'rs',
     color: '#ffffff',
   },
   sliderSubtitle: {
@@ -487,7 +487,7 @@ fontFamily: "ob",
     color: '#ffffff',
     opacity: 0.9,
     marginBottom: 16,
-fontFamily: "os",
+   fontFamily: 'rr',
   },
   sliderButton: {
     backgroundColor: Colors.acc,
@@ -499,7 +499,7 @@ fontFamily: "os",
   sliderButtonText: {
     color: '#ffffff',
     fontSize: 14,
-fontFamily: "ob",
+   fontFamily: 'rs',
   },
   pagination: {
     flexDirection: 'row',
@@ -529,7 +529,7 @@ fontFamily: "ob",
   },
   sectionTitle: {
     fontSize: 15,
-fontFamily: "ob",
+   fontFamily: 'rs',
     color: '#ffffff',
   },
   seeAllText: {
@@ -566,7 +566,7 @@ fontFamily: "ob",
   popularText: {
     color: '#ffffff',
     fontSize: 12,
-fontFamily: "ob",
+   fontFamily: 'rs',
   },
   featuredDateContainer: {
     position: 'absolute',
@@ -580,7 +580,7 @@ fontFamily: "ob",
   },
   featuredDateNumber: {
     fontSize: 18,
-fontFamily: "ob",
+   fontFamily: 'rs',
     color: '#ffffff',
     lineHeight: 20,
   },
@@ -604,7 +604,7 @@ fontFamily: "ob",
   categoryText: {
     color: Colors.acc,
     fontSize: 12,
-fontFamily: "os",
+   fontFamily: 'rr',
   },
   saveButton: {
     padding: 4,
@@ -614,7 +614,7 @@ fontFamily: "os",
   },
   featuredTitle: {
     fontSize: 13,
-fontFamily: "ob",
+   fontFamily: 'rs',
     color: '#ffffff',
     marginBottom: 8,
     lineHeight: 22,
@@ -623,7 +623,7 @@ fontFamily: "ob",
     fontSize: 14,
     color: '#a0a0a0',
     marginBottom: 13,
-fontFamily: "os",
+   fontFamily: 'rr',
   },
   featuredFooter: {
     flexDirection: 'row',
@@ -668,7 +668,7 @@ fontFamily: "os",
   },
   dateNumber: {
     fontSize: 20,
-fontFamily: "ob",
+   fontFamily: 'rs',
     color: '#ffffff',
     lineHeight: 24,
   },
@@ -696,7 +696,7 @@ fontFamily: "ob",
   },
   eventTitle: {
     fontSize: 15,
-fontFamily: "ob",
+   fontFamily: 'rs',
     color: '#ffffff',
     marginBottom: 6,
     lineHeight: 20,
@@ -705,12 +705,12 @@ fontFamily: "ob",
     fontSize: 13,
     color: '#a0a0a0',
     marginBottom: 8,
-fontFamily: "os",
+   fontFamily: 'rr',
   },
   eventDescription: {
     fontSize: 12,
     color: '#b0b0b0',
-fontFamily: "os",
+   fontFamily: 'rr',
     lineHeight: 16,
     marginBottom: 12,
   },
@@ -731,7 +731,7 @@ fontFamily: "os",
   freeText: {
     color: '#ffffff',
     fontSize: 12,
-fontFamily: "ob",
+   fontFamily: 'rs',
   },
   priceTag: {
     backgroundColor: Colors.acc,
@@ -742,7 +742,7 @@ fontFamily: "ob",
   priceText: {
     color: '#ffffff',
     fontSize: 12,
-fontFamily: "ob",
+   fontFamily: 'rs',
   },
   
   // Ad Styles
@@ -765,7 +765,7 @@ fontFamily: "ob",
   },
   adTitle: {
     fontSize: 12,
-fontFamily: "ob",
+   fontFamily: 'rs',
     color: '#ffffff',
     // marginBottom: 4,
   },
@@ -773,7 +773,7 @@ fontFamily: "ob",
     fontSize: 12,
     color: '#ffffff',
     opacity: 0.8,
-fontFamily: "os",
+   fontFamily: 'rr',
     lineHeight: 16,
   },
   adButton: {
@@ -786,7 +786,7 @@ fontFamily: "os",
   adButtonText: {
     color: '#ffffff',
     fontSize: 12,
-fontFamily: "ob",
+   fontFamily: 'rs',
   },
   adImage: {
     width: 100,

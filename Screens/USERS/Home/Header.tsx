@@ -173,13 +173,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
 
     color: '#fff',
-    fontFamily: 'mm',
+   fontFamily: 'rm',
     // marginBottom: 2,
   },
   subtitle: {
     fontSize: 13,
     color: '#fff',
-    fontFamily: 'ol',
+   fontFamily: 'rr',
     opacity: 0.8,
   },
   actionButtons: {

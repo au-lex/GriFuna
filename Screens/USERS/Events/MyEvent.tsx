@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
+import { useRouter } from 'expo-router';
 
 // Type definitions
 interface Event {
@@ -20,6 +21,9 @@ interface Event {
   image: string;
   price?: string;
   isFree?: boolean;
+  category: string;
+  attendees?: number;
+  description?: string;
 }
 
 interface EventSectionProps {
@@ -28,7 +32,9 @@ interface EventSectionProps {
   showSeeAll?: boolean;
 }
 
-// Sample data
+
+
+// Sample data with enhanced properties
 const upcomingEvents: Event[] = [
   {
     id: '1',
@@ -36,8 +42,11 @@ const upcomingEvents: Event[] = [
     date: '12',
     month: 'Jul',
     location: 'Shiloh, Hawaii 81063',
-    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=300&h=200&fit=crop',
+    image: 'https://i.pinimg.com/1200x/52/e9/3a/52e93af2dec0bcf6db8ee3213c8dcf3b.jpg',
     isFree: true,
+    category: 'Social',
+    attendees: 150,
+    description: 'Join us for an unforgettable celebration with music, dancing, and great company in beautiful Hawaii.',
   },
   {
     id: '2',
@@ -45,8 +54,11 @@ const upcomingEvents: Event[] = [
     date: '24',
     month: 'Jul',
     location: 'Shiloh, Hawaii 81063',
-    image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=300&h=200&fit=crop',
+    image: 'https://i.pinimg.com/736x/8e/c1/f9/8ec1f9438afa68e8f2efd696219588f8.jpg',
     price: '$25.50',
+    category: 'Business',
+    attendees: 300,
+    description: 'Network with industry leaders and discover new opportunities for professional growth and collaboration.',
   },
 ];
 
@@ -57,8 +69,11 @@ const nextWeekEvents: Event[] = [
     date: '05',
     month: 'Oct',
     location: 'Shiloh, Hawaii 81063',
-    image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=300&h=200&fit=crop',
+    image: 'https://i.pinimg.com/736x/4f/13/31/4f1331a06474465b3171f2ca4184edfc.jpg',
     price: '$25.50',
+    category: 'Professional',
+    attendees: 250,
+    description: 'Unlock your corporate potential with expert insights and strategic planning sessions.',
   },
   {
     id: '4',
@@ -66,8 +81,11 @@ const nextWeekEvents: Event[] = [
     date: '21',
     month: 'Oct',
     location: 'Shiloh, Hawaii 81063',
-    image: 'https://images.unsplash.com/photo-1551818255-e6e10975bc17?w=300&h=200&fit=crop',
+    image: 'https://i.pinimg.com/736x/95/e5/12/95e5123c42487e16ff78847fcee936dd.jpg',
     price: '$25.50',
+    category: 'Leadership',
+    attendees: 180,
+    description: 'Learn from top executives about future-focused leadership strategies and organizational transformation.',
   },
 ];
 
@@ -78,54 +96,98 @@ const pastEvents: Event[] = [
     date: '15',
     month: 'Jun',
     location: 'Shiloh, Hawaii 81063',
-    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=300&h=200&fit=crop',
+    image: 'https://i.pinimg.com/736x/95/e5/12/95e5123c42487e16ff78847fcee936dd.jpg',
     isFree: true,
+    category: 'Conference',
+    attendees: 500,
+    description: 'A comprehensive conference focused on personal and professional excellence strategies.',
   },
 ];
 
-// Event Card Component
+// Enhanced Event Card Component (matching upcoming events style)
 const EventCard: React.FC<{ event: Event; onPress?: () => void }> = ({ event, onPress }) => {
+  const router = useRouter();
+  
   return (
-    <TouchableOpacity style={styles.eventCard} onPress={onPress}>
-      <View style={styles.dateContainer}>
+    <TouchableOpacity 
+      style={styles.eventCard} 
+      onPress={() => router.push('/eventDetails/Index')}
+    >
+      {/* Absolute Date Container */}
+      <View style={styles.absoluteDateContainer}>
         <Text style={styles.dateNumber}>{event.date}</Text>
         <Text style={styles.dateMonth}>{event.month}</Text>
       </View>
       
+      {/* Large Image */}
       <Image source={{ uri: event.image }} style={styles.eventImage} />
       
+      {/* Event Content */}
       <View style={styles.eventContent}>
+        <View style={styles.eventHeader}>
+          <View style={styles.categoryTag}>
+            <Text style={styles.categoryText}>{event.category}</Text>
+          </View>
+          <TouchableOpacity style={styles.saveButton}>
+            <Text style={styles.saveIcon}>🤍</Text>
+          </TouchableOpacity>
+        </View>
+        
         <Text style={styles.eventTitle}>{event.title}</Text>
         <Text style={styles.eventLocation}>📍 {event.location}</Text>
-      </View>
-      
-      <View style={styles.priceContainer}>
-        {event.isFree ? (
-          <View style={styles.freeTag}>
-            <Text style={styles.freeText}>FREE</Text>
-          </View>
-        ) : (
-          <View style={styles.priceTag}>
-            <Text style={styles.priceText}>{event.price}</Text>
-          </View>
+        
+        {/* Description */}
+        {event.description && (
+          <Text style={styles.eventDescription} numberOfLines={2}>
+            {event.description}
+          </Text>
         )}
+        
+        <View style={styles.eventFooter}>
+          <Text style={styles.attendeesText}>👥 {event.attendees}</Text>
+          
+          <View style={styles.priceContainer}>
+            {event.isFree ? (
+              <View style={styles.freeTag}>
+                <Text style={styles.freeText}>FREE</Text>
+              </View>
+            ) : (
+              <View style={styles.priceTag}>
+                <Text style={styles.priceText}>{event.price}</Text>
+              </View>
+            )}
+          </View>
+        </View>
       </View>
     </TouchableOpacity>
   );
 };
 
+// Section Header Component
+const SectionHeader: React.FC<{ title: string; showSeeAll?: boolean; onSeeAll?: () => void }> = ({ 
+  title, 
+  showSeeAll = true, 
+  onSeeAll 
+}) => (
+  <View style={styles.sectionHeader}>
+    <Text style={styles.sectionTitle}>{title}</Text>
+    {showSeeAll && (
+      <TouchableOpacity onPress={onSeeAll}>
+        <Text style={styles.seeAllText}>See all</Text>
+      </TouchableOpacity>
+    )}
+  </View>
+);
+
 // Event Section Component
 const EventSection: React.FC<EventSectionProps> = ({ title, events, showSeeAll = true }) => {
   return (
     <View style={styles.section}>
-      <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>{title}</Text>
-        {showSeeAll && (
-          <TouchableOpacity>
-            <Text style={styles.seeAllText}>See all</Text>
-          </TouchableOpacity>
-        )}
-      </View>
+      <SectionHeader 
+        title={title} 
+        showSeeAll={showSeeAll}
+        onSeeAll={() => console.log(`See all ${title}`)}
+      />
       
       {events.map((event) => (
         <EventCard
@@ -139,7 +201,7 @@ const EventSection: React.FC<EventSectionProps> = ({ title, events, showSeeAll =
 };
 
 // Main Component
-const   MyEvents: React.FC = () => {
+const MyEvents: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
@@ -158,99 +220,150 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    paddingHorizontal: 20,
   },
+  
+  // Section Styles
   section: {
-    marginBottom: 30,
+    marginBottom: 20,
   },
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    paddingHorizontal: 20,
+    marginBottom: 16,
   },
   sectionTitle: {
     fontSize: 18,
-fontFamily: 'mb',
-
+    fontFamily: 'rb',
+    color: '#ffffff',
   },
   seeAllText: {
     fontSize: 14,
-    color: '#8b5cf6',
-    fontWeight: '500',
+    color: Colors.acc,
+    fontFamily: 'ol',
   },
+  
+  // Enhanced Event Card Styles (matching upcoming events)
   eventCard: {
     flexDirection: 'row',
-    backgroundColor: '#2a2438',
-    borderRadius: 16,
-    padding: 16,
+    backgroundColor: Colors.card,
+    borderRadius: 12,
+    marginHorizontal: 20,
     marginBottom: 16,
-    alignItems: 'center',
+    alignItems: 'stretch',
+    overflow: 'hidden',
+    minHeight: 140,
+    position: 'relative',
   },
-  dateContainer: {
+  absoluteDateContainer: {
+    position: 'absolute',
+    top: 12,
+    left: 12,
     alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 16,
-    minWidth: 40,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 10,
+    zIndex: 10,
   },
   dateNumber: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontFamily: 'rs',
     color: '#ffffff',
-    lineHeight: 28,
+    lineHeight: 24,
   },
   dateMonth: {
-    fontSize: 12,
-    color: '#a0a0a0',
+    fontSize: 10,
+    color: '#ffffff',
     fontWeight: '500',
+    textTransform: 'uppercase',
   },
   eventImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 12,
-    marginRight: 16,
+    width: 150,
+    height: '100%',
+    minHeight: 140,
   },
   eventContent: {
     flex: 1,
-    justifyContent: 'center',
+    padding: 16,
+    justifyContent: 'space-between',
+  },
+  eventHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  categoryTag: {
+    borderRadius: 12,
+  },
+  categoryText: {
+    color: Colors.acc,
+    fontSize: 12,
+    fontFamily: 'rr',
+  },
+  saveButton: {
+    padding: 4,
+  },
+  saveIcon: {
+    fontSize: 20,
   },
   eventTitle: {
-    fontSize: 16,
-fontFamily: 'mb',
+    fontSize: 15,
+    fontFamily: 'mb',
     color: '#ffffff',
     marginBottom: 6,
     lineHeight: 20,
   },
   eventLocation: {
+    fontSize: 13,
+    color: '#a0a0a0',
+    fontFamily: 'rr',
+    marginBottom: 8,
+  },
+  eventDescription: {
+    fontSize: 12,
+    color: '#b0b0b0',
+    fontFamily: 'rr',
+    lineHeight: 16,
+    marginBottom: 12,
+  },
+  eventFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  attendeesText: {
     fontSize: 14,
     color: '#a0a0a0',
-    fontWeight: '400',
+    fontFamily: 'ol',
   },
   priceContainer: {
-    marginLeft: 12,
+    // No additional margin needed
   },
   freeTag: {
     backgroundColor: '#10b981',
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 20,
+    borderRadius: 16,
   },
   freeText: {
     color: '#ffffff',
     fontSize: 12,
-fontFamily: 'mb',
+    fontFamily: 'mb',
   },
   priceTag: {
-    backgroundColor: '#f59e0b',
+    backgroundColor: Colors.acc,
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 20,
+    borderRadius: 6,
   },
   priceText: {
     color: '#ffffff',
     fontSize: 12,
-fontFamily: 'mb',
+    fontFamily: 'mb',
   },
 });
 
-export default   MyEvents;
+export default MyEvents;

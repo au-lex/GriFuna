@@ -65,9 +65,9 @@ interface NotificationSettings {
 // Sample user data
 const userProfile: UserProfile = {
   id: 'user_001',
-  firstName: 'Sarah',
-  lastName: 'Johnson',
-  email: 'sarah.johnson@email.com',
+  firstName: 'Script ',
+  lastName: 'Devv',
+  email: 'scriptDevv@email.com',
   phone: '+1 (555) 123-4567',
   avatar: 'https://i.pinimg.com/736x/08/41/3f/08413f3942b7cf8af45b986a4120a347.jpg',
   location: 'San Francisco, CA',
@@ -240,15 +240,6 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  const getTierIcon = (tier: string) => {
-    const color = getTierColor(tier);
-    return <Star size={16} color={color} fill={color} />;
-  };
-
-  const formatJoinDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return `Member since ${date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`;
-  };
 
   const handleEditProfile = () => {
     Alert.alert('Edit Profile', 'Profile editing functionality would be implemented here.');
@@ -292,12 +283,7 @@ const ProfilePage: React.FC = () => {
               <Text style={styles.userName}>
                 {userProfile.firstName} {userProfile.lastName}
               </Text>
-              <View style={styles.membershipBadge}>
-                {getTierIcon(userProfile.membershipTier)}
-                <Text style={[styles.membershipText, { color: getTierColor(userProfile.membershipTier) }]}>
-                  {userProfile.membershipTier}
-                </Text>
-              </View>
+         
             </View>
             
             <View style={styles.contactInfo}>
@@ -422,7 +408,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     color: 'white',
     fontSize: 20,
-    fontFamily: 'ob',
+   fontFamily: 'rs',
   },
   settingsButton: {
     padding: 8,
@@ -436,11 +422,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 24,
     marginBottom: 24,
+    flexDirection: 'row',
     // alignItems: 'center',
   },
   avatarContainer: {
     position: 'relative',
     marginBottom: 16,
+    marginRight: 20,
   },
   avatar: {
     width: 100,
@@ -457,30 +445,22 @@ const styles = StyleSheet.create({
   nameContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+
     gap: 12,
   },
   userName: {
     color: 'white',
     fontSize: 24,
-    fontFamily: 'ob',
+   fontFamily: 'rs',
   },
-  membershipBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 215, 0, 0.1)',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
-    gap: 4,
-  },
+
   membershipText: {
     fontSize: 12,
-    fontFamily: 'os',
+     fontFamily: 'rr',
   },
   contactInfo: {
     width: '100%',
-    marginBottom: 20,
+    marginVertical:10,
     gap: 8,
   },
   infoRow: {
@@ -491,7 +471,7 @@ const styles = StyleSheet.create({
   contactText: {
     color: '#d1d5db',
     fontSize: 14,
-    fontFamily: 'ol',
+   fontFamily: 'rr',
     flex: 1,
   },
   editButton: {
@@ -508,7 +488,7 @@ const styles = StyleSheet.create({
   editButtonText: {
     color: 'white',
     fontSize: 14,
-    fontFamily: 'os',
+     fontFamily: 'rr',
   },
   statsSection: {
     marginBottom: 24,
@@ -516,7 +496,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     color: 'white',
     fontSize: 18,
-    fontFamily: 'ob',
+   fontFamily: 'rs',
     marginBottom: 16,
   },
   statsGrid: {
@@ -544,12 +524,12 @@ const styles = StyleSheet.create({
   statsValue: {
     color: 'white',
     fontSize: 20,
-    fontFamily: 'ob',
+   fontFamily: 'rs',
   },
   statsLabel: {
     color: '#9ca3af',
     fontSize: 12,
-    fontFamily: 'ol',
+   fontFamily: 'rr',
   },
   menuSection: {
     marginBottom: 24,
@@ -578,13 +558,13 @@ const styles = StyleSheet.create({
   },
   menuItemTitle: {
     fontSize: 16,
-    fontFamily: 'os',
+     fontFamily: 'rr',
     marginBottom: 2,
   },
   menuItemSubtitle: {
     color: '#9ca3af',
     fontSize: 12,
-    fontFamily: 'ol',
+   fontFamily: 'rr',
   },
   modalContainer: {
     flex: 1,
@@ -602,7 +582,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     color: 'white',
     fontSize: 20,
-    fontFamily: 'ob',
+   fontFamily: 'rs',
   },
   closeButton: {
     padding: 8,
@@ -620,7 +600,7 @@ const styles = StyleSheet.create({
   settingsSectionTitle: {
     color: 'white',
     fontSize: 16,
-    fontFamily: 'ob',
+   fontFamily: 'rs',
     marginBottom: 12,
   },
   settingsItem: {
@@ -638,13 +618,13 @@ const styles = StyleSheet.create({
   settingsItemLabel: {
     color: 'white',
     fontSize: 14,
-    fontFamily: 'os',
+     fontFamily: 'rr',
     marginBottom: 2,
   },
   settingsItemDescription: {
     color: '#9ca3af',
     fontSize: 12,
-    fontFamily: 'ol',
+   fontFamily: 'rr',
   },
 });
 
