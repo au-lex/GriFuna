@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
 
   headerTitle: {
     fontSize: 18,
-    fontFamily: "ob",
+   fontFamily: 'rs',
     color: '#ffffff',
   },
   headerRight: {
@@ -480,14 +480,14 @@ const styles = StyleSheet.create({
   },
   eventDateNumber: {
     fontSize: 20,
-    fontFamily: "ob",
+   fontFamily: 'rs',
     color: '#ffffff',
     lineHeight: 24,
   },
   eventDateMonth: {
     fontSize: 10,
     color: '#ffffff',
-    fontFamily: "os",
+   fontFamily: 'rr',
     textTransform: 'uppercase',
   },
   eventDetails: {
@@ -496,7 +496,7 @@ const styles = StyleSheet.create({
   },
   eventTitle: {
     fontSize: 16,
-    fontFamily: "ob",
+   fontFamily: 'rs',
     color: '#ffffff',
     marginBottom: 4,
     lineHeight: 22,
@@ -504,13 +504,13 @@ const styles = StyleSheet.create({
   eventLocation: {
     fontSize: 14,
     color: '#a0a0a0',
-    fontFamily: "os",
+   fontFamily: 'rr',
     marginBottom: 2,
   },
   eventOrganizer: {
     fontSize: 12,
     color: Colors.acc,
-fontFamily: "ol",
+   fontFamily: 'rb',
   },
 
   // Section Styles
@@ -520,7 +520,7 @@ fontFamily: "ol",
   },
   sectionTitle: {
     fontSize: 18,
-    fontFamily: "ob",
+   fontFamily: 'rs',
     color: '#ffffff',
     marginBottom: 16,
   },
@@ -555,7 +555,7 @@ fontFamily: "ol",
   popularText: {
     color: '#ffffff',
     fontSize: 12,
-    fontFamily: "ob",
+   fontFamily: 'rs',
   },
   ticketHeader: {
     flexDirection: 'row',
@@ -565,14 +565,14 @@ fontFamily: "ol",
   },
   ticketName: {
     fontSize: 18,
-    fontFamily: "ob",
+   fontFamily: 'rs',
     color: '#ffffff',
     marginBottom: 4,
   },
   ticketDescription: {
     fontSize: 14,
     color: '#a0a0a0',
-    fontFamily: "os",
+   fontFamily: 'rr',
     lineHeight: 20,
   },
   priceSection: {
@@ -583,14 +583,14 @@ fontFamily: "ol",
   },
   currentPrice: {
     fontSize: 24,
-    fontFamily: "ob",
+   fontFamily: 'rs',
     color: Colors.acc,
   },
   originalPrice: {
     fontSize: 16,
     color: '#666',
     textDecorationLine: 'line-through',
-    fontFamily: "os",
+   fontFamily: 'rr',
   },
   discountBadge: {
     backgroundColor: Colors.acc,
@@ -602,7 +602,7 @@ fontFamily: "ol",
   discountText: {
     color: '#ffffff',
     fontSize: 10,
-    fontFamily: "ob",
+   fontFamily: 'rs',
   },
 
   // Features Styles
@@ -618,12 +618,12 @@ fontFamily: "ol",
     color: Colors.acc,
     fontSize: 16,
     marginRight: 12,
-    fontFamily: "ob",
+   fontFamily: 'rs',
   },
   featureText: {
     color: '#ffffff',
     fontSize: 14,
-    fontFamily: "os",
+   fontFamily: 'rr',
     flex: 1,
   },
 
@@ -638,7 +638,7 @@ fontFamily: "ol",
   availabilityText: {
     color: Colors.acc,
     fontSize: 12,
-fontFamily: "ol",
+   fontFamily: 'rb',
   },
   quantitySelector: {
     flexDirection: 'row',
@@ -658,12 +658,12 @@ fontFamily: "ol",
   quantityButtonText: {
     color: '#ffffff',
     fontSize: 18,
-    fontFamily: "ob",
+   fontFamily: 'rs',
   },
   quantityText: {
     color: '#ffffff',
     fontSize: 16,
-    fontFamily: "ob",
+   fontFamily: 'rs',
     marginHorizontal: 20,
     minWidth: 20,
     textAlign: 'center',
@@ -685,7 +685,7 @@ fontFamily: "ol",
   },
   promoTitle: {
     fontSize: 16,
-    fontFamily: "ob",
+   fontFamily: 'rs',
     color: '#ffffff',
     marginBottom: 12,
   },
@@ -701,7 +701,7 @@ fontFamily: "ol",
     paddingVertical: 12,
     color: '#ffffff',
     fontSize: 16,
-    fontFamily: "os",
+   fontFamily: 'rr',
     borderWidth: 1,
     borderColor: 'transparent',
   },
@@ -722,12 +722,12 @@ fontFamily: "ol",
   promoButtonText: {
     color: '#ffffff',
     fontSize: 14,
-    fontFamily: "ob",
+   fontFamily: 'rs',
   },
   promoSuccessText: {
     color: '#10b981',
     fontSize: 14,
-    fontFamily: "os",
+   fontFamily: 'rr',
     marginTop: 8,
   },
 
@@ -749,7 +749,7 @@ fontFamily: "ol",
   },
   summaryTitle: {
     fontSize: 18,
-    fontFamily: "ob",
+   fontFamily: 'rs',
     color: '#ffffff',
     marginBottom: 16,
   },
@@ -762,22 +762,22 @@ fontFamily: "ol",
   summaryItemText: {
     color: '#ffffff',
     fontSize: 14,
-    fontFamily: "os",
+   fontFamily: 'rr',
   },
   summaryItemTextDiscount: {
     color: '#10b981',
     fontSize: 14,
-    fontFamily: "os",
+   fontFamily: 'rr',
   },
   summaryItemPrice: {
     color: '#ffffff',
     fontSize: 14,
-    fontFamily: "os",
+   fontFamily: 'rr',
   },
   summaryItemPriceDiscount: {
     color: '#10b981',
     fontSize: 14,
-    fontFamily: "os",
+   fontFamily: 'rr',
   },
   summaryDivider: {
     height: 1,
@@ -787,12 +787,12 @@ fontFamily: "ol",
   summaryTotalText: {
     color: '#ffffff',
     fontSize: 18,
-    fontFamily: "ob",
+   fontFamily: 'rs',
   },
   summaryTotalPrice: {
     color: '#ffffff',
     fontSize: 18,
-    fontFamily: "ob",
+   fontFamily: 'rs',
   },
 
   // Checkout Styles
@@ -818,7 +818,7 @@ fontFamily: "ol",
   checkoutTicketCount: {
     color: '#a0a0a0',
     fontSize: 14,
-    fontFamily: "os",
+   fontFamily: 'rr',
   },
   checkoutButton: {
     backgroundColor: Colors.acc,
@@ -830,7 +830,7 @@ fontFamily: "ol",
   checkoutButtonText: {
     color: '#ffffff',
     fontSize: 16,
-    fontFamily: "ob",
+   fontFamily: 'rs',
   },
   bottomSpacing: {
     // height: 100, // Space for fixed checkout button

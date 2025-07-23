@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-  StatusBar,
+
   SafeAreaView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -136,7 +136,7 @@ const mockTickets: TicketData[] = [
 ];
 
 const TicketScreen: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<TabType>('Completed');
+  const [activeTab, setActiveTab] = useState<TabType>('Upcoming');
 
   const filteredTickets = mockTickets.filter(ticket => {
     switch (activeTab) {
@@ -153,14 +153,10 @@ const TicketScreen: React.FC = () => {
 
   const renderHeader = () => (
     <View style={styles.header}>
-      <TouchableOpacity style={styles.backButton}>
-        <Ionicons name="chevron-back" size={24} color="white" />
-      </TouchableOpacity>
-      <Text style={styles.headerTitle}>Ticket</Text>
+
+      <Text style={styles.headerTitle}>My Ticket</Text>
       <View style={styles.headerRight}>
-        <TouchableOpacity style={styles.headerButton}>
-          <Ionicons name="search" size={24} color="white" />
-        </TouchableOpacity>
+
    
       </View>
     </View>
@@ -296,7 +292,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor:Colors.card,
+    // backgroundColor:Colors.card,
   },
   backButton: {
     padding: 8,
@@ -315,7 +311,7 @@ const styles = StyleSheet.create({
   },
   tabContainer: {
     flexDirection: 'row',
-    backgroundColor:Colors.card,
+    // backgroundColor:Colors.card,
     paddingHorizontal: 16,
   },
   tab: {
@@ -375,6 +371,7 @@ const styles = StyleSheet.create({
   ticketDate: {
     fontSize: 14,
     color: '#8E8E93',
+    fontFamily: 'rr',
   },
   ticketContent: {
     flexDirection: 'row',
@@ -404,6 +401,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#8E8E93',
     marginLeft: 4,
+    fontFamily: 'rr',
   },
   avatarContainer: {
     flexDirection: 'row',
@@ -463,7 +461,7 @@ const styles = StyleSheet.create({
   },
   reviewButton: {
     flex: 1,
-    backgroundColor: '#2d2d44',
+    backgroundColor: Colors.acc,
     paddingVertical: 12,
     borderRadius: 8,
     marginRight: 8,

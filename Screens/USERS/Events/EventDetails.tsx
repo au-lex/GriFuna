@@ -15,6 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
 
 import { useRouter } from 'expo-router';
+import { Image } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
@@ -28,11 +29,14 @@ const EventDetailsScreen: React.FC = () => {
     setIsFavorite(!isFavorite);
   };
 
-  const attendees = [
-    { id: 1, avatar: '👨‍💼' },
-    { id: 2, avatar: '👩‍💼' },
-    { id: 3, avatar: '👨‍💻' },
-    { id: 4, avatar: '👩‍💻' },
+
+
+  const sampleAvatars = [
+    'https://i.pravatar.cc/150?img=1',
+    'https://i.pravatar.cc/150?img=2',
+    'https://i.pravatar.cc/150?img=3',
+    'https://i.pravatar.cc/150?img=4',
+
   ];
 
   return (
@@ -114,9 +118,9 @@ const EventDetailsScreen: React.FC = () => {
             {/* Attendees */}
             <View style={styles.attendeesContainer}>
               <View style={styles.attendeesAvatars}>
-                {attendees.map((attendee, index) => (
-                  <View key={attendee.id} style={[styles.attendeeAvatar, { marginLeft: index > 0 ? -8 : 0 }]}>
-                    <Text style={styles.attendeeAvatarText}>{attendee.avatar}</Text>
+                {sampleAvatars.map((attendee, index) => (
+                  <View key={attendee} style={[styles.attendeeAvatar, { marginLeft: index > 0 ? -8 : 0 }]}>
+                    <Image source={{ uri: attendee }} style={{ width: 32, height: 32, borderRadius: 16}} />
                   </View>
                 ))}
               </View>
@@ -237,7 +241,7 @@ backgroundColor: '#1a1625'
   inviteText: {
     color: '#FFFFFF',
     fontSize: 14,
-fontFamily: "os",
+   fontFamily: 'rm',
   },
   scrollContainer: {
     flex: 1,
@@ -248,7 +252,7 @@ fontFamily: "os",
   },
   eventTitle: {
     fontSize: 28,
-fontFamily: "ob",
+   fontFamily: 'rb',
     color: '#FFFFFF',
     marginBottom: 12,
   },
@@ -269,16 +273,16 @@ fontFamily: "ob",
   organizerAvatarText: {
     color: '#FFFFFF',
     fontSize: 12,
-fontFamily: "os",
+   fontFamily: 'rm',
   },
   organizerText: {
     color: '#9CA3AF',
     fontSize: 14,
-    fontFamily: "ol",
+   fontFamily: 'rr',
   },
   organizerName: {
     color: '#FFFFFF',
-fontFamily: "os",
+   fontFamily: 'rm',
   },
   detailRow: {
     flexDirection: 'row',
@@ -292,13 +296,13 @@ fontFamily: "os",
   detailTitle: {
     color: '#FFFFFF',
     fontSize: 16,
-fontFamily: "os",
+   fontFamily: 'rm',
     marginBottom: 4,
   },
   detailSubtitle: {
     color: '#9CA3AF',
     fontSize: 14,
-    fontFamily: "ol",
+   fontFamily: 'rr',
   },
   calendarButton: {
   
@@ -314,7 +318,7 @@ fontFamily: "os",
   calendarButtonText: {
     color: '#FFFFFF',
     fontSize: 14,
-fontFamily: "os",
+   fontFamily: 'rm',
   },
   locationButton: {
 
@@ -330,7 +334,7 @@ fontFamily: "os",
   locationButtonText: {
     color: '#FFFFFF',
     fontSize: 14,
-fontFamily: "os",
+   fontFamily: 'rm',
   },
   attendeesContainer: {
     flexDirection: 'row',
@@ -358,12 +362,12 @@ fontFamily: "os",
     color: '#9CA3AF',
     fontSize: 14,
     flex: 1,
-    fontFamily: "ol",
+   fontFamily: 'rr',
   },
   viewAllText: {
     color: Colors.acc,
     fontSize: 14,
-fontFamily: "os",
+   fontFamily: 'rm',
   },
   tabContainer: {
     flexDirection: 'row',
@@ -383,11 +387,11 @@ fontFamily: "os",
   tabText: {
     color: '#9CA3AF',
     fontSize: 16,
-    fontFamily: "os",
+       fontFamily: 'rm',
   },
   activeTabText: {
     color: Colors.acc,
-fontFamily: "os",
+   fontFamily: 'rm',
   },
   tabContent: {
     padding: 20,
@@ -397,11 +401,11 @@ fontFamily: "os",
     color: '#9CA3AF',
     fontSize: 14,
     lineHeight: 22,
-    fontFamily: "ol",
+   fontFamily: 'rr',
   },
   readMoreText: {
     color: Colors.acc,
-fontFamily: "os",
+   fontFamily: 'rm',
   },
   emptyState: {
     alignItems: 'center',
@@ -427,7 +431,7 @@ fontFamily: "os",
   getTicketText: {
     color: '#FFFFFF',
     fontSize: 18,
-fontFamily: "os",
+   fontFamily: 'rm',
   },
 });
 

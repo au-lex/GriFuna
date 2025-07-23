@@ -136,12 +136,7 @@ const FixedHeader: React.FC<{ searchQuery: string; onSearchChange: (text: string
       
       {/* Top Row - Back Arrow and Title */}
       <View style={styles.headerTopRow}>
-        <TouchableOpacity 
-          style={styles.backButton}
-          onPress={() => router.back()}
-        >
-          <Ionicons name="arrow-back" size={24} color="#ffffff" />
-        </TouchableOpacity>
+     
         
         <Text style={styles.headerTitle}>My Events</Text>
         
@@ -429,7 +424,7 @@ const styles = StyleSheet.create({
   remainingText: {
     fontSize: 10,
     color: '#ffffff',
-    fontFamily: 'mb',
+   fontFamily: 'rm',
   },
   
   // Content Styles
@@ -460,7 +455,7 @@ const styles = StyleSheet.create({
   seeAllText: {
     fontSize: 14,
     color: Colors.acc,
-    fontFamily: 'ol',
+   fontFamily: 'rb',
   },
   
   // Enhanced Event Card Styles
@@ -527,7 +522,7 @@ const styles = StyleSheet.create({
   },
   eventTitle: {
     fontSize: 15,
-    fontFamily: 'mb',
+   fontFamily: 'rm',
     color: '#ffffff',
     marginBottom: 6,
     lineHeight: 20,
@@ -558,7 +553,7 @@ const styles = StyleSheet.create({
   attendeesText: {
     fontSize: 12,
     color: '#a0a0a0',
-    fontFamily: 'ol',
+   fontFamily: 'rb',
   },
   priceContainer: {
     // No additional margin needed
@@ -572,7 +567,7 @@ const styles = StyleSheet.create({
   freeText: {
     color: '#ffffff',
     fontSize: 12,
-    fontFamily: 'mb',
+   fontFamily: 'rm',
   },
   priceTag: {
     backgroundColor: Colors.acc,
@@ -583,7 +578,7 @@ const styles = StyleSheet.create({
   priceText: {
     color: '#ffffff',
     fontSize: 12,
-    fontFamily: 'mb',
+   fontFamily: 'rm',
   },
   
   // No Results Styles

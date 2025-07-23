@@ -1,3 +1,4 @@
+import { Colors } from '@/constants/Colors';
 import React, { useState } from 'react';
 import {
   View,
@@ -7,11 +8,15 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
+  TextInput,
+  StatusBar,
   Alert,
 } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 // Type definitions
-interface SavedEvent {
+interface Event {
   id: string;
   title: string;
   date: string;
@@ -21,214 +26,336 @@ interface SavedEvent {
   price?: string;
   isFree?: boolean;
   category: string;
-  time: string;
-  savedDate: string;
+  attendees?: number;
+  description?: string;
+  attendeeAvatars?: string[];
+  bookmarkedAt?: string; // When it was bookmarked
+  eventStatus?: 'upcoming' | 'ongoing' | 'past';
 }
 
-// Sample saved events data
-const initialSavedEvents: SavedEvent[] = [
+// Sample user avatars
+const sampleAvatars = [
+  'https://i.pravatar.cc/150?img=1',
+  'https://i.pravatar.cc/150?img=2',
+  'https://i.pravatar.cc/150?img=3',
+  'https://i.pravatar.cc/150?img=4',
+  'https://i.pravatar.cc/150?img=5',
+  'https://i.pravatar.cc/150?img=6',
+  'https://i.pravatar.cc/150?img=7',
+  'https://i.pravatar.cc/150?img=8',
+  'https://i.pravatar.cc/150?img=9',
+  'https://i.pravatar.cc/150?img=10',
+];
+
+// Sample bookmarked events data
+const bookmarkedEvents: Event[] = [
   {
     id: '1',
     title: 'Michael and Anthonia Party',
     date: '12',
     month: 'Jul',
     location: 'Shiloh, Hawaii 81063',
-    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=300&h=200&fit=crop',
+    image: 'https://i.pinimg.com/1200x/52/e9/3a/52e93af2dec0bcf6db8ee3213c8dcf3b.jpg',
     isFree: true,
     category: 'Social',
-    time: '7:00 PM',
-    savedDate: '2 days ago',
+    attendees: 150,
+    description: 'Join us for an unforgettable celebration with music, dancing, and great company in beautiful Hawaii.',
+    attendeeAvatars: sampleAvatars.slice(0, 4),
+    bookmarkedAt: '2 days ago',
+    eventStatus: 'upcoming',
   },
   {
     id: '2',
-    title: 'Synergy Summit: Building Connections for Success',
-    date: '24',
+    title: 'Tech Innovation Conference 2024',
+    date: '28',
     month: 'Jul',
-    location: 'Shiloh, Hawaii 81063',
-    image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=300&h=200&fit=crop',
-    price: '$25.50',
-    category: 'Business',
-    time: '9:00 AM',
-    savedDate: '1 week ago',
+    location: 'Silicon Valley, CA 94087',
+    image: 'https://i.pinimg.com/736x/e5/ca/00/e5ca00308bacd2ec74b0b12bb60755d0.jpg',
+    price: '$89.99',
+    category: 'Technology',
+    attendees: 450,
+    description: 'Discover the latest trends in AI, blockchain, and emerging technologies with industry leaders.',
+    attendeeAvatars: sampleAvatars.slice(2, 7),
+    bookmarkedAt: '1 week ago',
+    eventStatus: 'upcoming',
   },
   {
     id: '3',
-    title: 'Elevate Forum: Powering Your Corporate Potential',
-    date: '05',
-    month: 'Oct',
-    location: 'Shiloh, Hawaii 81063',
-    image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=300&h=200&fit=crop',
-    price: '$25.50',
-    category: 'Professional',
-    time: '10:00 AM',
-    savedDate: '3 days ago',
+    title: 'Sunset Jazz Festival',
+    date: '15',
+    month: 'Aug',
+    location: 'Central Park, NY 10024',
+    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=300&fit=crop&crop=center',
+    price: '$45.00',
+    category: 'Music',
+    attendees: 320,
+    description: 'An evening of smooth jazz under the stars with renowned artists and local food vendors.',
+    attendeeAvatars: sampleAvatars.slice(1, 6),
+    bookmarkedAt: '3 days ago',
+    eventStatus: 'upcoming',
   },
   {
     id: '4',
-    title: 'Creative Workshop: Digital Art Mastery',
-    date: '15',
-    month: 'Aug',
-    location: 'Creative Hub, Hawaii 81063',
-    image: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=300&h=200&fit=crop',
-    price: '$45.00',
-    category: 'Workshop',
-    time: '2:00 PM',
-    savedDate: '5 days ago',
+    title: 'Entrepreneurs Networking Mixer',
+    date: '05',
+    month: 'Sep',
+    location: 'Downtown LA, CA 90014',
+    image: 'https://i.pinimg.com/736x/b2/c3/d4/b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7.jpg',
+    isFree: true,
+    category: 'Business',
+    attendees: 180,
+    description: 'Connect with fellow entrepreneurs, share ideas, and build meaningful business relationships.',
+    attendeeAvatars: sampleAvatars.slice(3, 8),
+    bookmarkedAt: '5 days ago',
+    eventStatus: 'upcoming',
   },
   {
     id: '5',
-    title: 'Tech Innovation Conference 2024',
-    date: '28',
-    month: 'Aug',
-    location: 'Tech Center, Hawaii 81063',
-    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=300&h=200&fit=crop',
+    title: 'Art Gallery Opening: Modern Expressions',
+    date: '22',
+    month: 'Jun',
+    location: 'Chelsea, NY 10011',
+    image: 'https://i.pinimg.com/736x/c3/d4/e5/c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8.jpg',
     isFree: true,
-    category: 'Technology',
-    time: '9:30 AM',
-    savedDate: '1 day ago',
+    category: 'Art',
+    attendees: 85,
+    description: 'Explore contemporary art from emerging local artists in this exclusive gallery opening.',
+    attendeeAvatars: sampleAvatars.slice(4, 8),
+    bookmarkedAt: '2 weeks ago',
+    eventStatus: 'past',
+  },
+  {
+    id: '6',
+    title: 'Fitness Bootcamp Challenge',
+    date: '30',
+    month: 'Jul',
+    location: 'Santa Monica Beach, CA 90401',
+    image: 'https://i.pinimg.com/736x/d4/e5/f6/d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9.jpg',
+    price: '$25.00',
+    category: 'Fitness',
+    attendees: 65,
+    description: 'High-intensity beach workout session followed by healthy smoothies and networking.',
+    attendeeAvatars: sampleAvatars.slice(0, 5),
+    bookmarkedAt: '1 day ago',
+    eventStatus: 'upcoming',
   },
 ];
 
-// Saved Event Card Component
-const SavedEventCard: React.FC<{ 
-  event: SavedEvent; 
-  onPress?: () => void;
-  onRemove: (id: string) => void;
-}> = ({ event, onPress, onRemove }) => {
-  const handleRemove = () => {
+// Fixed Header Component
+const FixedHeader: React.FC<{ 
+  searchQuery: string; 
+  onSearchChange: (text: string) => void;
+  bookmarkedCount: number;
+}> = ({ searchQuery, onSearchChange, bookmarkedCount }) => {
+  const router = useRouter();
+
+  return (
+    <View style={styles.fixedHeader}>
+
+      
+      {/* Top Row - Back Arrow and Title */}
+      <View style={styles.headerTopRow}>
+
+        
+        <View style={styles.titleContainer}>
+          <Text style={styles.headerTitle}>Bookmarked Events</Text>
+          <Text style={styles.countText}>{bookmarkedCount} saved</Text>
+        </View>
+
+      </View>
+ 
+
+
+    </View>
+  );
+};
+
+// Avatar Stack Component
+const AvatarStack: React.FC<{ avatars: string[]; maxVisible?: number }> = ({ 
+  avatars, 
+  maxVisible = 3 
+}) => {
+  const visibleAvatars = avatars.slice(0, maxVisible);
+  const remainingCount = avatars.length - maxVisible;
+
+  return (
+    <View style={styles.avatarStack}>
+      {visibleAvatars.map((avatar, index) => (
+        <Image
+          key={index}
+          source={{ uri: avatar }}
+          style={[
+            styles.avatar,
+            { marginLeft: index > 0 ? -8 : 0, zIndex: maxVisible - index }
+          ]}
+        />
+      ))}
+      {remainingCount > 0 && (
+        <View style={[styles.avatar, styles.remainingAvatar, { marginLeft: -8 }]}>
+          <Text style={styles.remainingText}>+{remainingCount}</Text>
+        </View>
+      )}
+    </View>
+  );
+};
+
+
+
+// Bookmarked Event Card Component
+const BookmarkedEventCard: React.FC<{ 
+  event: Event; 
+  onRemoveBookmark: (eventId: string) => void;
+}> = ({ event, onRemoveBookmark }) => {
+  const router = useRouter();
+
+  const handleRemoveBookmark = () => {
     Alert.alert(
-      'Remove Event',
-      'Are you sure you want to remove this event from your saved list?',
+      'Remove Bookmark',
+      `Remove "${event.title}" from your saved events?`,
       [
-        { text: 'Cancel', style: 'cancel' },
-        { 
-          text: 'Remove', 
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Remove',
           style: 'destructive',
-          onPress: () => onRemove(event.id)
+          onPress: () => onRemoveBookmark(event.id),
         },
       ]
     );
   };
-
+  
   return (
-    <TouchableOpacity style={styles.eventCard} onPress={onPress}>
-      <View style={styles.dateContainer}>
+    <TouchableOpacity 
+      style={styles.eventCard} 
+      onPress={() => router.push('/eventDetails/Index')}
+    >
+      {/* Absolute Date Container */}
+      <View style={styles.absoluteDateContainer}>
         <Text style={styles.dateNumber}>{event.date}</Text>
         <Text style={styles.dateMonth}>{event.month}</Text>
       </View>
       
+
+      
+      {/* Large Image */}
       <Image source={{ uri: event.image }} style={styles.eventImage} />
       
+      {/* Event Content */}
       <View style={styles.eventContent}>
         <View style={styles.eventHeader}>
-          <View style={styles.categoryTag}>
-            <Text style={styles.categoryText}>{event.category}</Text>
-          </View>
-          <TouchableOpacity onPress={handleRemove} style={styles.removeButton}>
-            <Text style={styles.removeIcon}>❤️</Text>
+    
+          <TouchableOpacity 
+            style={styles.saveButton}
+            onPress={handleRemoveBookmark}
+          >
+            <Ionicons name="heart" size={20} color={Colors.acc} />
           </TouchableOpacity>
         </View>
         
         <Text style={styles.eventTitle}>{event.title}</Text>
+        <Text style={styles.eventLocation}>📍 {event.location}</Text>
         
-        <View style={styles.eventDetails}>
-          <Text style={styles.eventLocation}>📍 {event.location}</Text>
-          <Text style={styles.eventTime}>🕐 {event.time}</Text>
+        {/* Bookmarked timestamp */}
+        <Text style={styles.bookmarkedText}>Saved {event.bookmarkedAt}</Text>
+        
+ 
+        
+        <View style={styles.eventFooter}>
+          {/* Avatar Stack and Attendees */}
+          <View style={styles.attendeesContainer}>
+            {event.attendeeAvatars && event.attendeeAvatars.length > 0 && (
+              <AvatarStack avatars={event.attendeeAvatars} />
+            )}
+         
+          </View>
+          
+          <View style={styles.priceContainer}>
+            {event.isFree ? (
+              <View style={styles.freeTag}>
+                <Text style={styles.freeText}>FREE</Text>
+              </View>
+            ) : (
+              <View style={styles.priceTag}>
+                <Text style={styles.priceText}>{event.price}</Text>
+              </View>
+            )}
+          </View>
         </View>
-        
-        <Text style={styles.savedDate}>Saved {event.savedDate}</Text>
-      </View>
-      
-      <View style={styles.priceContainer}>
-        {event.isFree ? (
-          <View style={styles.freeTag}>
-            <Text style={styles.freeText}>FREE</Text>
-          </View>
-        ) : (
-          <View style={styles.priceTag}>
-            <Text style={styles.priceText}>{event.price}</Text>
-          </View>
-        )}
       </View>
     </TouchableOpacity>
   );
 };
 
 // Empty State Component
-const EmptyState: React.FC = () => (
-  <View style={styles.emptyState}>
-    <Text style={styles.emptyIcon}>💾</Text>
+const EmptyBookmarks: React.FC = () => (
+  <View style={styles.emptyContainer}>
+    <View style={styles.emptyIconContainer}>
+      <Ionicons name="bookmark-outline" size={64} color="#6b7280" />
+    </View>
     <Text style={styles.emptyTitle}>No Saved Events</Text>
     <Text style={styles.emptyDescription}>
-      Events you save will appear here. Start exploring and save events you're interested in!
+      Events you bookmark will appear here.{'\n'}
+      Start exploring and save events you're interested in!
     </Text>
+    <TouchableOpacity style={styles.exploreButton}>
+      <Text style={styles.exploreButtonText}>Explore Events</Text>
+    </TouchableOpacity>
   </View>
 );
 
-// Stats Card Component
-const StatsCard: React.FC<{ count: number }> = ({ count }) => (
-  <View style={styles.statsCard}>
-    <View style={styles.statsContent}>
-      <Text style={styles.statsNumber}>{count}</Text>
-      <Text style={styles.statsLabel}>Saved Events</Text>
-    </View>
-    <View style={styles.statsIcon}>
-      <Text style={styles.statsEmoji}>💾</Text>
-    </View>
-  </View>
-);
+// Main Component
+const BookmarkedEvents: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [events, setEvents] = useState<Event[]>(bookmarkedEvents);
 
-// Main Saved Events Component
-const SavedEventsScreen: React.FC = () => {
-  const [savedEvents, setSavedEvents] = useState<SavedEvent[]>(initialSavedEvents);
-
-  const handleRemoveEvent = (eventId: string) => {
-    setSavedEvents(prevEvents => prevEvents.filter(event => event.id !== eventId));
-  };
-
-  const handleClearAll = () => {
-    Alert.alert(
-      'Clear All Saved Events',
-      'Are you sure you want to remove all saved events? This action cannot be undone.',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { 
-          text: 'Clear All', 
-          style: 'destructive',
-          onPress: () => setSavedEvents([])
-        },
-      ]
+  // Filter events based on search query
+  const filterEvents = (events: Event[]) => {
+    if (!searchQuery.trim()) return events;
+    return events.filter(event =>
+      event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      event.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      event.location.toLowerCase().includes(searchQuery.toLowerCase())
     );
   };
 
+  const handleRemoveBookmark = (eventId: string) => {
+    setEvents(prevEvents => prevEvents.filter(event => event.id !== eventId));
+  };
+
+  const filteredEvents = filterEvents(events);
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Saved Events</Text>
-        {savedEvents.length > 0 && (
-          <TouchableOpacity onPress={handleClearAll}>
-            <Text style={styles.clearAllText}>Clear All</Text>
-          </TouchableOpacity>
-        )}
-      </View>
-
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        {savedEvents.length > 0 && (
-          <StatsCard count={savedEvents.length} />
-        )}
-        
-        {savedEvents.length === 0 ? (
-          <EmptyState />
+      {/* Fixed Header */}
+      <FixedHeader 
+        searchQuery={searchQuery} 
+        onSearchChange={setSearchQuery}
+        bookmarkedCount={events.length}
+      />
+      
+      {/* Scrollable Content */}
+      <ScrollView 
+        style={styles.scrollView} 
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
+        {events.length === 0 ? (
+          <EmptyBookmarks />
+        ) : filteredEvents.length > 0 ? (
+          filteredEvents.map((event) => (
+            <BookmarkedEventCard
+              key={event.id}
+              event={event}
+              onRemoveBookmark={handleRemoveBookmark}
+            />
+          ))
         ) : (
-          <View style={styles.eventsContainer}>
-            {savedEvents.map((event) => (
-              <SavedEventCard
-                key={event.id}
-                event={event}
-                onPress={() => console.log(`Pressed saved event: ${event.title}`)}
-                onRemove={handleRemoveEvent}
-              />
-            ))}
+          <View style={styles.noResultsContainer}>
+            <Ionicons name="search-outline" size={48} color="#6b7280" />
+            <Text style={styles.noResultsText}>No events found for "{searchQuery}"</Text>
+            <Text style={styles.noResultsSubText}>Try adjusting your search terms</Text>
           </View>
         )}
       </ScrollView>
@@ -239,197 +366,290 @@ const SavedEventsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1625',
+    backgroundColor: Colors.bg,
   },
-  header: {
+  
+  // Fixed Header Styles
+  fixedHeader: {
+    backgroundColor: Colors.bg,
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  headerTopRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 10,
+    paddingTop: 10,
+    paddingBottom: 16,
+  },
+  backButton: {
+    padding: 4,
+  },
+  titleContainer: {
+    // alignItems: 'center',
   },
   headerTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontFamily: 'rb',
     color: '#ffffff',
+    textAlign: 'center',
   },
-  clearAllText: {
-    fontSize: 16,
-    color: '#ef4444',
-    fontWeight: '600',
+  countText: {
+    fontSize: 15,
+    color: '#a0a0a0',
+    fontFamily: 'rr',
+    marginTop: 2,
   },
+  moreButton: {
+    padding: 4,
+  },
+
+  
+
+
+  // Avatar Styles
+  avatarStack: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  avatar: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: Colors.bg,
+  },
+  remainingAvatar: {
+    backgroundColor: Colors.acc,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  remainingText: {
+    fontSize: 10,
+    color: '#ffffff',
+    fontFamily: 'mb',
+  },
+  
+  // Status Badge
+  statusBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  statusText: {
+    fontSize: 10,
+    color: '#ffffff',
+    fontFamily: 'mb',
+    textTransform: 'uppercase',
+  },
+  
+  // Content Styles
   scrollView: {
     flex: 1,
-    paddingHorizontal: 20,
   },
-  statsCard: {
-    backgroundColor: '#2a2438',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  scrollContent: {
+    paddingTop: 20,
+    // paddingBottom: 100,
   },
-  statsContent: {
-    flex: 1,
-  },
-  statsNumber: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#8b5cf6',
-    lineHeight: 36,
-  },
-  statsLabel: {
-    fontSize: 16,
-    color: '#a0a0a0',
-    marginTop: 4,
-  },
-  statsIcon: {
-    width: 60,
-    height: 60,
-    backgroundColor: '#8b5cf6',
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  statsEmoji: {
-    fontSize: 24,
-  },
-  eventsContainer: {
-    paddingBottom: 20,
-  },
+  
+  // Event Card Styles
   eventCard: {
-    backgroundColor: '#2a2438',
-    borderRadius: 16,
-    padding: 16,
+    flexDirection: 'row',
+    backgroundColor: Colors.card,
+    borderRadius: 12,
+    marginHorizontal: 20,
     marginBottom: 16,
+    alignItems: 'stretch',
+    overflow: 'hidden',
+    minHeight: 160,
+    position: 'relative',
   },
-  dateContainer: {
+  absoluteDateContainer: {
     position: 'absolute',
-    top: 16,
-    right: 16,
+    top: 12,
+    left: 12,
     alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 10,
+    zIndex: 10,
+  },
+  absoluteStatusContainer: {
+    position: 'absolute',
+    top: 12,
+    right: 12,
+    zIndex: 10,
   },
   dateNumber: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily: 'rs',
     color: '#ffffff',
     lineHeight: 24,
   },
   dateMonth: {
-    fontSize: 12,
-    color: '#a0a0a0',
+    fontSize: 10,
+    color: '#ffffff',
     fontWeight: '500',
+    textTransform: 'uppercase',
   },
   eventImage: {
-    width: '100%',
-    height: 120,
-    borderRadius: 12,
-    marginBottom: 16,
+    width: 150,
+    height: '100%',
+    minHeight: 160,
   },
   eventContent: {
     flex: 1,
+    padding: 16,
+    justifyContent: 'space-between',
   },
   eventHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+position: 'relative',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 8,
   },
   categoryTag: {
-    backgroundColor: '#8b5cf6',
-    paddingHorizontal: 12,
-    paddingVertical: 4,
     borderRadius: 12,
   },
   categoryText: {
-    color: '#ffffff',
+    color: Colors.acc,
     fontSize: 12,
-    fontWeight: '600',
+    fontFamily: 'rr',
   },
-  removeButton: {
-    padding: 4,
-  },
-  removeIcon: {
-    fontSize: 20,
+  saveButton: {
+    // padding: 4,
+    position: 'absolute',
+    top: -8,
+    right: -3,
   },
   eventTitle: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: 15,
+    fontFamily: 'rb',
     color: '#ffffff',
-    marginBottom: 12,
-    lineHeight: 22,
-  },
-  eventDetails: {
-    marginBottom: 8,
+    marginBottom: 6,
+    lineHeight: 20,
   },
   eventLocation: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#a0a0a0',
+    fontFamily: 'rr',
     marginBottom: 4,
   },
-  eventTime: {
-    fontSize: 14,
-    color: '#a0a0a0',
+  bookmarkedText: {
+    fontSize: 11,
+    color: '#6b7280',
+    fontFamily: 'rr',
+    marginBottom: 8,
   },
-  savedDate: {
+  eventDescription: {
     fontSize: 12,
-    color: '#8b5cf6',
-    fontStyle: 'italic',
+    color: '#b0b0b0',
+    fontFamily: 'rr',
+    lineHeight: 16,
+    marginBottom: 12,
+  },
+  eventFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  attendeesContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  attendeesText: {
+    fontSize: 12,
+    color: '#a0a0a0',
+    fontFamily: 'ol',
   },
   priceContainer: {
-    alignSelf: 'flex-start',
-    marginTop: 12,
+    // No additional margin needed
   },
   freeTag: {
     backgroundColor: '#10b981',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
   },
   freeText: {
     color: '#ffffff',
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: 12,
+    fontFamily: 'mb',
   },
   priceTag: {
-    backgroundColor: '#f59e0b',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
+    backgroundColor: Colors.acc,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
   },
   priceText: {
     color: '#ffffff',
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: 12,
+    fontFamily: 'mb',
   },
-  emptyState: {
+  
+  // Empty State Styles
+  emptyContainer: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 80,
+    justifyContent: 'center',
+    paddingHorizontal: 40,
+    paddingTop: 80,
   },
-  emptyIcon: {
-    fontSize: 64,
-    marginBottom: 20,
+  emptyIconContainer: {
+    marginBottom: 24,
   },
   emptyTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontFamily: 'rb',
     color: '#ffffff',
     marginBottom: 12,
+    textAlign: 'center',
   },
   emptyDescription: {
     fontSize: 16,
     color: '#a0a0a0',
+    fontFamily: 'rr',
     textAlign: 'center',
-    lineHeight: 22,
-    paddingHorizontal: 40,
+    lineHeight: 24,
+    marginBottom: 32,
+  },
+  exploreButton: {
+    backgroundColor: Colors.acc,
+    paddingHorizontal: 32,
+    paddingVertical: 16,
+    borderRadius: 12,
+  },
+  exploreButtonText: {
+    fontSize: 16,
+    color: '#ffffff',
+    fontFamily: 'mb',
+  },
+  
+  // No Results Styles
+  noResultsContainer: {
+    padding: 60,
+    alignItems: 'center',
+  },
+  noResultsText: {
+    fontSize: 18,
+    color: '#ffffff',
+    fontFamily: 'mb',
+    textAlign: 'center',
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  noResultsSubText: {
+    fontSize: 14,
+    color: '#a0a0a0',
+    fontFamily: 'rr',
+    textAlign: 'center',
   },
 });
 
-export default SavedEventsScreen;
+export default BookmarkedEvents;
