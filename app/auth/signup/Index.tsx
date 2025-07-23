@@ -17,19 +17,44 @@ import { Colors } from '@/constants/Colors';
 
 const { width, height } = Dimensions.get('window');
 
-interface FloatingIconProps {
-  delay: number;
-  left: number;
-  top: number;
+type UserRole = 'attendee' | 'talent' | 'organizer';
+
+interface RoleOption {
+  id: UserRole;
+  title: string;
+  description: string;
   icon: string;
-  size: number;
 }
 
+const roleOptions: RoleOption[] = [
+  {
+    id: 'attendee',
+    title: 'Attendee',
+    description: 'Discover and attend amazing events',
+    icon: '🎫'
+  },
+  {
+    id: 'talent',
+    title: 'Talent',
+    description: 'Showcase your skills and perform at events',
+    icon: '🎭'
+  },
+  {
+    id: 'organizer',
+    title: 'Organizer',
+    description: 'Create and manage your own events',
+    icon: '🎪'
+  }
+];
 
-const LoginPage: React.FC = () => {
+const SignUpPage: React.FC = () => {
   const router = useRouter();
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const containerOpacity = useRef(new Animated.Value(0)).current;
@@ -70,21 +95,31 @@ const LoginPage: React.FC = () => {
     }).start();
   }, []);
 
-  const handleLogin = async () => {
+  const handleSignUp = async () => {
+    if (!selectedRole) {
+      alert('Please select your role');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
     setIsLoading(true);
-    // Simulate login process
+    // Simulate signup process
     setTimeout(() => {
       setIsLoading(false);
       router.push('/(tabs)');
-    }, 500);
+    }, 1500);
   };
 
-  const handleSignUp = () => {
-    router.push('/auth/signup/Index');
+  const handleLogin = () => {
+    router.push('/auth/login/Index');
   };
 
-  const handleForgotPassword = () => {
-    router.push('/forgot-password');
+  const handleRoleSelect = (role: UserRole) => {
+    setSelectedRole(role);
   };
 
   return (
@@ -115,7 +150,6 @@ const LoginPage: React.FC = () => {
         ))}
       </View>
 
-
       <ScrollView 
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -129,18 +163,80 @@ const LoginPage: React.FC = () => {
             },
           ]}
         >
-  
-
           {/* Welcome Text */}
           <View style={styles.welcomeSection}>
-            <Text style={styles.welcomeTitle}>Welcome Back!</Text>
+            <Text style={styles.welcomeTitle}>Create Account</Text>
             <Text style={styles.welcomeSubtitle}>
-              Sign in to continue managing your amazing events
+              Join our community and start your event journey
             </Text>
           </View>
 
-          {/* Login Form */}
+          {/* Role Selection */}
+          <View style={styles.roleSection}>
+            <Text style={styles.sectionTitle}>Choose Your Role</Text>
+            <View style={styles.roleContainer}>
+              {roleOptions.map((role) => (
+                <TouchableOpacity
+                  key={role.id}
+                  style={[
+                    styles.roleCard,
+                    selectedRole === role.id && styles.roleCardSelected
+                  ]}
+                  onPress={() => handleRoleSelect(role.id)}
+                >
+                  <LinearGradient
+                    colors={selectedRole === role.id ? [Colors.acc, '#FF8A5B'] : [Colors.card, Colors.card]}
+                    style={styles.roleCardGradient}
+                  >
+                    <Text style={styles.roleIcon}>{role.icon}</Text>
+                    <Text style={[
+                      styles.roleTitle,
+                      selectedRole === role.id && styles.roleTextSelected
+                    ]}>
+                      {role.title}
+                    </Text>
+                    <Text style={[
+                      styles.roleDescription,
+                      selectedRole === role.id && styles.roleDescriptionSelected
+                    ]}>
+                      {role.description}
+                    </Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+
+          {/* Sign Up Form */}
           <View style={styles.formSection}>
+            <View style={styles.nameRow}>
+              <View style={[styles.inputContainer, styles.halfInput]}>
+                <Text style={styles.inputLabel}>First Name</Text>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Enter first name"
+                  placeholderTextColor={Colors.icon}
+                  value={firstName}
+                  onChangeText={setFirstName}
+                  autoCapitalize="words"
+                  autoCorrect={false}
+                />
+              </View>
+
+              <View style={[styles.inputContainer, styles.halfInput]}>
+                <Text style={styles.inputLabel}>Last Name</Text>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Enter last name"
+                  placeholderTextColor={Colors.icon}
+                  value={lastName}
+                  onChangeText={setLastName}
+                  autoCapitalize="words"
+                  autoCorrect={false}
+                />
+              </View>
+            </View>
+
             <View style={styles.inputContainer}>
               <Text style={styles.inputLabel}>Email Address</Text>
               <TextInput
@@ -159,7 +255,7 @@ const LoginPage: React.FC = () => {
               <Text style={styles.inputLabel}>Password</Text>
               <TextInput
                 style={styles.textInput}
-                placeholder="Enter your password"
+                placeholder="Create a password"
                 placeholderTextColor={Colors.icon}
                 value={password}
                 onChangeText={setPassword}
@@ -169,15 +265,10 @@ const LoginPage: React.FC = () => {
               />
             </View>
 
-            <TouchableOpacity 
-              style={styles.forgotPasswordContainer}
-              onPress={handleForgotPassword}
-            >
-              <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-            </TouchableOpacity>
+      
           </View>
 
-          {/* Login Button */}
+          {/* Sign Up Button */}
           <Animated.View
             style={[
               styles.buttonSection,
@@ -187,8 +278,8 @@ const LoginPage: React.FC = () => {
             ]}
           >
             <TouchableOpacity 
-              style={styles.loginButton}
-              onPress={handleLogin}
+              style={styles.signUpButton}
+              onPress={handleSignUp}
               disabled={isLoading}
             >
               <LinearGradient
@@ -196,38 +287,23 @@ const LoginPage: React.FC = () => {
                 style={styles.buttonGradient}
               >
                 <Text style={styles.buttonText}>
-                  {isLoading ? 'Signing In...' : 'Sign In'}
+                  {isLoading ? 'Creating Account...' : 'Create Account'}
                 </Text>
               </LinearGradient>
             </TouchableOpacity>
 
-            {/* Divider */}
-            <View style={styles.dividerContainer}>
-              <View style={styles.dividerLine} />
-              <Text style={styles.dividerText}>OR</Text>
-              <View style={styles.dividerLine} />
-            </View>
-
-            {/* Social Login Buttons */}
-            <TouchableOpacity style={styles.socialButton}>
-              <LinearGradient
-                colors={[Colors.card, Colors.card]}
-                style={styles.socialButtonGradient}
-              >
-                <Text style={styles.socialButtonIcon}>G</Text>
-                <Text style={styles.socialButtonText}>Continue with Google</Text>
-              </LinearGradient>
-            </TouchableOpacity>
+          
 
           </Animated.View>
 
-          {/* Sign Up Link */}
+
+          {/* Login Link */}
           <TouchableOpacity 
-            style={styles.signUpContainer}
-            onPress={handleSignUp}
+            style={styles.loginContainer}
+            onPress={handleLogin}
           >
-            <Text style={styles.signUpText}>
-              Don't have an account? <Text style={styles.signUpLink}>Sign Up</Text>
+            <Text style={styles.loginText}>
+              Already have an account? <Text style={styles.loginLink}>Sign In</Text>
             </Text>
           </TouchableOpacity>
         </Animated.View>
@@ -259,25 +335,19 @@ const styles = StyleSheet.create({
     borderRadius: 1,
     opacity: 0.4,
   },
-
-
   scrollContent: {
     flexGrow: 1,
     justifyContent: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 60,
+    paddingVertical: 40,
   },
   content: {
-    alignItems: 'center',
+    // alignItems: 'center',
   },
-  logoSection: {
-    alignItems: 'center',
-    marginBottom: 40,
-  },
-
   welcomeSection: {
-
-    marginBottom: 40,
+    paddingTop: 20,
+    // alignItems: 'center',
+    marginBottom: 32,
   },
   welcomeTitle: {
     color: Colors.background,
@@ -289,15 +359,80 @@ const styles = StyleSheet.create({
     color: Colors.icon,
     fontSize: 16,
     fontFamily: 'rr',
-    textAlign: 'center',
+    // textAlign: 'center',
     lineHeight: 22,
+  },
+  roleSection: {
+    width: '100%',
+    marginBottom: 32,
+  },
+  sectionTitle: {
+    color: Colors.background,
+    fontSize: 18,
+    fontFamily: 'rs',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  roleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 8,
+  },
+  roleCard: {
+    flex: 1,
+    borderRadius: 16,
+    overflow: 'hidden',
+  },
+  roleCardSelected: {
+    transform: [{ scale: 0.98 }],
+  },
+  roleCardGradient: {
+    padding: 16,
+    alignItems: 'center',
+    minHeight: 120,
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: `${Colors.acc}33`,
+    borderRadius: 16,
+  },
+  roleIcon: {
+    fontSize: 24,
+    marginBottom: 8,
+  },
+  roleTitle: {
+    color: Colors.background,
+    fontSize: 14,
+    fontFamily: 'rs',
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+  roleTextSelected: {
+    color: Colors.background,
+  },
+  roleDescription: {
+    color: Colors.icon,
+    fontSize: 11,
+    fontFamily: 'rr',
+    textAlign: 'center',
+    lineHeight: 14,
+  },
+  roleDescriptionSelected: {
+    color: `${Colors.background}CC`,
   },
   formSection: {
     width: '100%',
-    marginBottom: 30,
+    marginBottom: 24,
+  },
+  nameRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 12,
   },
   inputContainer: {
-    marginBottom: 20,
+    marginBottom: 16,
+  },
+  halfInput: {
+    flex: 1,
   },
   inputLabel: {
     color: Colors.background,
@@ -316,24 +451,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: `${Colors.acc}33`,
   },
-  forgotPasswordContainer: {
-    alignItems: 'flex-end',
-    marginTop: 8,
-  },
-  forgotPasswordText: {
-    color: Colors.acc,
-    fontSize: 14,
-    fontFamily: 'rs',
-  },
   buttonSection: {
     width: '100%',
-    marginBottom: 30,
+    marginBottom: 20,
   },
-  loginButton: {
+  signUpButton: {
     width: '100%',
     height: 56,
     borderRadius: 28,
-    marginBottom: 24,
+    marginBottom:4,
   },
   buttonGradient: {
     width: '100%',
@@ -347,62 +473,21 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'rb',
   },
-  dividerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 24,
+
+
+  loginContainer: {
+    // alignItems: 'center',
+    // marginTop: 8,
   },
-  dividerLine: {
-    flex: 1,
-    height: 1,
-    backgroundColor: `${Colors.icon}33`,
-  },
-  dividerText: {
-    color: Colors.icon,
-    fontSize: 14,
-    fontFamily: 'rs',
-    marginHorizontal: 16,
-  },
-  socialButton: {
-    width: '100%',
-    height: 50,
-    borderRadius: 25,
-    marginBottom: 12,
-  },
-  socialButtonGradient: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 25,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: `${Colors.acc}33`,
-  },
-  socialButtonIcon: {
-    color: Colors.acc,
-    fontSize: 20,
-    fontFamily: 'rb',
-    marginRight: 12,
-  },
-  socialButtonText: {
-    color: Colors.background,
-    fontSize: 16,
-    fontFamily: 'rs',
-  },
-  signUpContainer: {
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  signUpText: {
+  loginText: {
     color: Colors.icon,
     fontSize: 16,
     fontFamily: 'rr',
   },
-  signUpLink: {
+  loginLink: {
     color: Colors.acc,
     fontFamily: 'rs',
   },
 });
 
-export default LoginPage;
+export default SignUpPage;
