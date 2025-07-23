@@ -45,7 +45,7 @@ const Header: React.FC<HeaderProps> = ({
 
   const router = useRouter();
   const notifcation = () => {
-    router.push('/notification/Notification');
+    router.push('/notifica/Index');
   };
 
   const handleSearchPress = () => {
