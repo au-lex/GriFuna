@@ -1,47 +1,3 @@
-// {
-//   "expo": {
-//     "name": "Grifuna",
-//     "slug": "Grifuna",
-//     "version": "1.0.0",
-//     "orientation": "portrait",
-//     "icon": "./assets/images/icon.png",
-//     "scheme": "grifuna",
-//     "userInterfaceStyle": "automatic",
-//     "newArchEnabled": true,
-//     "ios": {
-//       "supportsTablet": true
-//     },
-//     "android": {
-//       "adaptiveIcon": {
-//         "foregroundImage": "./assets/images/adaptive-icon.png",
-//         "backgroundColor": "#1a1625"
-//       },
-//       "edgeToEdgeEnabled": true
-//     },
-//     "web": {
-//       "bundler": "metro",
-//       "output": "static",
-//       "favicon": "./assets/images/favicon.png"
-//     },
-//     "plugins": [
-//       "expo-router",
-//       [
-//         "expo-splash-screen",
-//         {
-//           "image": "./assets/images/splash-icon.png",
-//           "imageWidth": 200,
-//           "resizeMode": "contain",
-//           "backgroundColor": "#1a1625"
-//         }
-//       ]
-//     ],
-//     "experiments": {
-//       "typedRoutes": true
-//     }
-//   }
-// }
-
-
 {
   "expo": {
     "name": "Grifuna",
@@ -85,6 +41,18 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "fdda1b3c-8a93-437b-b882-6d3391377a76"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/fdda1b3c-8a93-437b-b882-6d3391377a76"
     }
   }
 }

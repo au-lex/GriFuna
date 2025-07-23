@@ -10,11 +10,16 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded] = useFonts({
-    mb: require('../assets/fonts/Montserrat-ExtraBold.ttf'),
-    mm: require('../assets/fonts/Montserrat-Medium.ttf'),
-    ol: require('../assets/fonts/OpenSans-Light.ttf'),
-    ob: require('../assets/fonts/OpenSans-Bold.ttf'),
-    om: require('../assets/fonts/OpenSans-Medium.ttf'),
+    ib: require('../assets/fonts/IntelOneMono-Bold.ttf'),
+    im: require('../assets/fonts/IntelOneMono-Medium.ttf'),
+    il: require('../assets/fonts/IntelOneMono-Light.ttf'),
+    is: require('../assets/fonts/IntelOneMono-SemiBold.ttf'),
+    ir: require('../assets/fonts/IntelOneMono-Regular.ttf'),
+    rb: require('../assets/fonts/Roboto-Bold.ttf'),
+    rm: require('../assets/fonts/Roboto-Medium.ttf'),
+    rl: require('../assets/fonts/Roboto-Light.ttf'),
+    rs: require('../assets/fonts/Roboto-SemiBold.ttf'),
+    rr: require('../assets/fonts/Roboto-Regular.ttf'),
   });
 
   useEffect(() => {
