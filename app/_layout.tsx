@@ -49,6 +49,7 @@ export default function RootLayout() {
         <Stack.Screen name="eventDetails/Index" options={{ headerShown: false }} />
         <Stack.Screen name="getTicket/Index" options={{ headerShown: false }} />
         <Stack.Screen name="notifica/Index" options={{ headerShown: false }} />
+        <Stack.Screen name="search/Index" options={{ headerShown: false }} />
       </Stack>
     </SafeAreaProvider>
   );
