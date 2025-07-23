@@ -50,6 +50,7 @@ export default function RootLayout() {
         <Stack.Screen name="getTicket/Index" options={{ headerShown: false }} />
         <Stack.Screen name="notifica/Index" options={{ headerShown: false }} />
         <Stack.Screen name="search/Index" options={{ headerShown: false }} />
+        <Stack.Screen name="auth/login/Index" options={{ headerShown: false }} />
       </Stack>
     </SafeAreaProvider>
   );

@@ -10,19 +10,11 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import { Colors } from '@/constants/Colors';
 
 const { width, height } = Dimensions.get('window');
 
-const Colors = {
-  text: '#11181C',
-  background: '#fff',
-  icon: '#687076',
-  tabIconDefault: '#687076',
-  bg: '#1a1625',
-  bSec: '#F5F5F5',
-  acc: '#FF6B35',
-  card: '#2a2438'
-};
+
 
 interface FloatingIconProps {
   delay: number;
@@ -228,7 +220,7 @@ const EventHubLanding: React.FC = () => {
           </LinearGradient>
         </TouchableOpacity>
         
-        <TouchableOpacity style={styles.signInContainer}>
+        <TouchableOpacity  onPress={() => router.push('/auth/login/Index')} style={styles.signInContainer}>
           <Text style={styles.signInText}>
             Already organizing events? <Text style={styles.signInLink}>Sign In</Text>
           </Text>

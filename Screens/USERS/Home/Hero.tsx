@@ -50,20 +50,20 @@ interface Ad {
 
 // Sample slider data
 const sliderData: SliderItem[] = [
-  {
-    id: '1',
-    title: 'Summer Music Festival',
-    subtitle: 'Join us for an unforgettable weekend',
-    image: 'https://i.pinimg.com/736x/73/c7/79/73c77971339ff256490cedac065cb75d.jpg',
-    gradient: [Colors.acc, '#ec4899'],
-  },
-  {
-    id: '2',
-    title: 'Tech Innovation Summit',
-    subtitle: 'Discover the future of technology',
-    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=250&fit=crop',
-    gradient: ['#06b6d4', '#3b82f6'],
-  },
+  // {
+  //   id: '1',
+  //   title: 'Summer Music Festival',
+  //   subtitle: 'Join us for an unforgettable weekend',
+  //   image: 'https://i.pinimg.com/736x/73/c7/79/73c77971339ff256490cedac065cb75d.jpg',
+  //   gradient: [Colors.acc, '#ec4899'],
+  // },
+  // {
+  //   id: '2',
+  //   title: 'Tech Innovation Summit',
+  //   subtitle: 'Discover the future of technology',
+  //   image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=250&fit=crop',
+  //   gradient: ['#06b6d4', '#3b82f6'],
+  // },
   {
     id: '3',
     title: 'Creative Workshop Series',
