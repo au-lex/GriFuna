@@ -45,6 +45,7 @@ export default function RootLayout() {
       >
         <Stack.Screen name='onboarding/Index' options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(organizer)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
         <Stack.Screen name="eventDetails/Index" options={{ headerShown: false }} />
         <Stack.Screen name="getTicket/Index" options={{ headerShown: false }} />
