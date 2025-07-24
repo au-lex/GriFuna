@@ -95,9 +95,41 @@ const SignUpPage: React.FC = () => {
     }).start();
   }, []);
 
-  const handleSignUp = async () => {
+  const navigateToRoleApp = (role: UserRole) => {
+    // Navigate based on role
+    switch (role) {
+      case 'attendee':
+        router.replace('/(attendee)/');
+        break;
+      case 'talent':
+        router.replace('/(talent)/'); // You'll need to create this
+        break;
+      case 'organizer':
+        router.replace('/(organizer)/dashboard');
+        break;
+      default:
+        router.replace('/(attendee)/');
+    }
+  };
+
+  const handleSignUp = () => {
     if (!selectedRole) {
       alert('Please select your role');
+      return;
+    }
+
+    if (!firstName.trim() || !lastName.trim()) {
+      alert('Please enter your name');
+      return;
+    }
+
+    if (!email.trim()) {
+      alert('Please enter your email');
+      return;
+    }
+
+    if (password.length < 6) {
+      alert('Password must be at least 6 characters');
       return;
     }
 
@@ -107,10 +139,13 @@ const SignUpPage: React.FC = () => {
     }
 
     setIsLoading(true);
+    
     // Simulate signup process
     setTimeout(() => {
       setIsLoading(false);
-      router.push('/(tabs)');
+      
+      // Navigate to appropriate app section
+      navigateToRoleApp(selectedRole);
     }, 1500);
   };
 
@@ -120,6 +155,11 @@ const SignUpPage: React.FC = () => {
 
   const handleRoleSelect = (role: UserRole) => {
     setSelectedRole(role);
+  };
+
+  // Quick role selection (bypasses form for testing)
+  const handleQuickRoleSelect = (role: UserRole) => {
+    navigateToRoleApp(role);
   };
 
   return (
@@ -171,37 +211,22 @@ const SignUpPage: React.FC = () => {
             </Text>
           </View>
 
-          {/* Role Selection */}
-          <View style={styles.roleSection}>
-            <Text style={styles.sectionTitle}>Choose Your Role</Text>
-            <View style={styles.roleContainer}>
+
+          {/* Quick Access Buttons (for testing - you can remove these) */}
+          <View style={styles.quickAccessSection}>
+            <Text style={[styles.sectionTitle, { fontSize: 16, marginBottom: 12 }]}>
+              Quick Access (Testing)
+            </Text>
+            <View style={styles.quickButtonsContainer}>
               {roleOptions.map((role) => (
                 <TouchableOpacity
-                  key={role.id}
-                  style={[
-                    styles.roleCard,
-                    selectedRole === role.id && styles.roleCardSelected
-                  ]}
-                  onPress={() => handleRoleSelect(role.id)}
+                  key={`quick-${role.id}`}
+                  style={styles.quickButton}
+                  onPress={() => handleQuickRoleSelect(role.id)}
                 >
-                  <LinearGradient
-                    colors={selectedRole === role.id ? [Colors.acc, '#FF8A5B'] : [Colors.card, Colors.card]}
-                    style={styles.roleCardGradient}
-                  >
-                    <Text style={styles.roleIcon}>{role.icon}</Text>
-                    <Text style={[
-                      styles.roleTitle,
-                      selectedRole === role.id && styles.roleTextSelected
-                    ]}>
-                      {role.title}
-                    </Text>
-                    <Text style={[
-                      styles.roleDescription,
-                      selectedRole === role.id && styles.roleDescriptionSelected
-                    ]}>
-                      {role.description}
-                    </Text>
-                  </LinearGradient>
+                  <Text style={styles.quickButtonText}>
+                    {role.icon} {role.title}
+                  </Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -265,7 +290,19 @@ const SignUpPage: React.FC = () => {
               />
             </View>
 
-      
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputLabel}>Confirm Password</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder="Confirm your password"
+                placeholderTextColor={Colors.icon}
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                secureTextEntry
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+            </View>
           </View>
 
           {/* Sign Up Button */}
@@ -291,11 +328,7 @@ const SignUpPage: React.FC = () => {
                 </Text>
               </LinearGradient>
             </TouchableOpacity>
-
-          
-
           </Animated.View>
-
 
           {/* Login Link */}
           <TouchableOpacity 
@@ -419,6 +452,35 @@ const styles = StyleSheet.create({
   roleDescriptionSelected: {
     color: `${Colors.background}CC`,
   },
+  quickAccessSection: {
+    width: '100%',
+    marginBottom: 24,
+    padding: 16,
+    backgroundColor: `${Colors.card}50`,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: `${Colors.acc}20`,
+  },
+  quickButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 8,
+  },
+  quickButton: {
+    flex: 1,
+    backgroundColor: Colors.card,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: `${Colors.acc}40`,
+  },
+  quickButtonText: {
+    color: Colors.background,
+    fontSize: 12,
+    fontFamily: 'rs',
+    textAlign: 'center',
+  },
   formSection: {
     width: '100%',
     marginBottom: 24,
@@ -459,7 +521,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 56,
     borderRadius: 28,
-    marginBottom:4,
+    marginBottom: 4,
   },
   buttonGradient: {
     width: '100%',
@@ -473,8 +535,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'rb',
   },
-
-
   loginContainer: {
     // alignItems: 'center',
     // marginTop: 8,

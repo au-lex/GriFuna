@@ -11,6 +11,7 @@ import {
   Alert,
   Switch,
 } from 'react-native';
+import { useRouter } from 'expo-router';
 import {
   User,
   Edit3,
@@ -94,6 +95,7 @@ interface SettingsModalProps {
 }
 
 const SettingsModal: React.FC<SettingsModalProps> = ({ visible, onClose }) => {
+
   const [notifications, setNotifications] = useState<NotificationSettings>(defaultNotificationSettings);
 
   const updateNotificationSetting = (key: keyof NotificationSettings, value: boolean) => {
@@ -183,6 +185,7 @@ interface StatsCardProps {
 }
 
 const StatsCard: React.FC<StatsCardProps> = ({ icon, label, value, color }) => (
+  
   <View style={[styles.statsCard, { borderLeftColor: color }]}>
     <View style={[styles.statsIcon, { backgroundColor: `${color}20` }]}>
       {icon}
@@ -229,7 +232,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
 // Main Profile Component
 const ProfilePage: React.FC = () => {
   const [settingsVisible, setSettingsVisible] = useState(false);
-
+  const router = useRouter();
   const getTierColor = (tier: string) => {
     switch (tier) {
       case 'Bronze': return '#cd7f32';
@@ -248,14 +251,7 @@ const ProfilePage: React.FC = () => {
 
 
   const handleLogout = () => {
-    Alert.alert(
-      'Logout',
-      'Are you sure you want to logout?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Logout', style: 'destructive', onPress: () => console.log('User logged out') },
-      ]
-    );
+   router.push('/auth/login/Index');
   };
 
   return (
