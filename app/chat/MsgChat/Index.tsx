@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import SafeLayout from '@/Layout/SafeAreaLayout'
-import MessageListUI from '@/Screens/ORGANIZERS/Chat/MsgList'
+import MessageUI from '@/Screens/ORGANIZERS/Chat/MessageUI'
 
 const Index = () => {
   return (
     <SafeLayout>
 
     <View style={{ flex: 1 }}>
-<MessageListUI />
+<MessageUI />
     </View>
     </SafeLayout>
   )

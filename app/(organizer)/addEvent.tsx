@@ -24,6 +24,8 @@ import {
   FileText,
   ChevronDown,
   Camera,
+  Ticket,
+  Info,
 } from 'lucide-react-native';
 import { Colors } from '@/constants/Colors';
 import SafeLayout from '@/Layout/SafeAreaLayout';
@@ -171,25 +173,30 @@ const CreateEventPage: React.FC = () => {
     Alert.alert('Gallery', 'Gallery functionality would be implemented here');
   };
 
-  const handlePublish = () => {
+  const handleCreateTicket = () => {
+    // Validate event details
     if (!eventData.name || !eventData.type || !eventData.date || !eventData.description) {
       Alert.alert('Missing Information', 'Please fill in all required fields');
       return;
     }
     
     Alert.alert(
-      'Publish Event',
-      'Are you sure you want to publish this event?',
+      'Create Ticket',
+      'Proceed to create tickets for this event?',
       [
         { text: 'Cancel', style: 'cancel' },
-        { text: 'Publish', onPress: () => publishEvent() },
+        { text: 'Create', onPress: () => createTicket() },
       ]
     );
   };
 
-  const publishEvent = () => {
-    console.log('Publishing event:', eventData);
-    Alert.alert('Success', 'Event published successfully!', [
+  const createTicket = () => {
+    const eventPayload = {
+      eventData,
+      coverImages,
+    };
+    console.log('Creating ticket for event:', eventPayload);
+    Alert.alert('Success', 'Event created! You can now add tickets.', [
       { text: 'OK', onPress: () => router.back() }
     ]);
   };
@@ -221,13 +228,11 @@ const CreateEventPage: React.FC = () => {
               <Plus size={24} color={Colors.acc} />
               <Text style={styles.addPhotoText}>Add Cover Photos</Text>
             </TouchableOpacity>
-
-   
           </View>
 
           {/* Event Details Form */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Event Details</Text>
+            
 
             {/* Event Name */}
             <View style={styles.inputGroup}>
@@ -243,6 +248,7 @@ const CreateEventPage: React.FC = () => {
               />
             </View>
 
+       
 
             {/* Date and Time */}
             <View style={styles.rowContainer}>
@@ -288,8 +294,6 @@ const CreateEventPage: React.FC = () => {
               </View>
             </View>
 
-     
-
             {/* Category */}
             <View style={styles.inputGroup}>
               <Text style={styles.inputLabel}>Event Category</Text>
@@ -322,9 +326,9 @@ const CreateEventPage: React.FC = () => {
             </View>
           </View>
 
-          {/* Publish Button */}
-          <TouchableOpacity style={styles.publishButton} onPress={handlePublish}>
-            <Text style={styles.publishButtonText}>PUBLISH NOW</Text>
+          {/* Create Ticket Button */}
+          <TouchableOpacity style={styles.createTicketButton} onPress={()=> router.push('/createTicket/Index')}>
+            <Text style={styles.createTicketButtonText}>CREATE TICKET</Text>
           </TouchableOpacity>
         </ScrollView>
 
@@ -373,6 +377,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 20,
+    paddingTop: 20,
   },
   section: {
     marginBottom: 24,
@@ -400,22 +405,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'rr',
     marginTop: 8,
-  },
-  photoGrid: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 12,
-  },
-  additionalPhoto: {
-    width: '22%',
-    aspectRatio: 1,
-    backgroundColor: Colors.card,
-    borderWidth: 2,
-    borderColor: '#6b7280',
-    borderStyle: 'dashed',
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   inputGroup: {
     marginBottom: 20,
@@ -485,14 +474,14 @@ const styles = StyleSheet.create({
     right: 16,
     top: 16,
   },
-  publishButton: {
+  createTicketButton: {
     backgroundColor: Colors.acc,
     borderRadius: 8,
     padding: 16,
     alignItems: 'center',
     marginBottom: 32,
   },
-  publishButtonText: {
+  createTicketButtonText: {
     color: 'white',
     fontSize: 16,
     fontFamily: 'rs',
