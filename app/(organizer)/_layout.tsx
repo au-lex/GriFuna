@@ -2,18 +2,18 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { View } from 'react-native';
 
-// Import organizer icons
-import OrganizerDashboardSvg from '../../assets/svg/Category2D.svg';
+
 import OrganizerEventsSvg from '../../assets/svg/EventD.svg';
 import CreateEventSvg from '../../assets/svg/AddSquareD.svg';
 import TalentD from "../../assets/svg/People-BoldD.svg";
 import ProfileSvg from '../../assets/svg/ProfileD.svg';
+import MsgD from "../../assets/svg/MessageNotifD.svg";
 
-import OrganizerDashboardSvgA from '../../assets/svg/Category2A.svg';
 import OrganizerEventsSvgA from '../../assets/svg/EventA.svg';
 import CreateEventSvgA from '../../assets/svg/AddSquareA.svg';
 import TalentA from "../../assets/svg/People-BoldA.svg";
 import ProfileSvgA from '../../assets/svg/ProfileA.svg';
+import MsgA from "../../assets/svg/MessageNotifA.svg";
 
 export default function OrganizerTabLayout() {  
   const getTabIcon = (route, focused, color) => {
@@ -21,22 +21,27 @@ export default function OrganizerTabLayout() {
     let InactiveSvgComponent;
 
     switch (route.name) {
-      case 'dashboard':
-        ActiveSvgComponent = OrganizerDashboardSvgA;
-        InactiveSvgComponent = OrganizerDashboardSvg;
-        break;
+
       case 'orgEvent':
         ActiveSvgComponent = OrganizerEventsSvgA;
         InactiveSvgComponent = OrganizerEventsSvg;
         break;
+
+      case 'dashboard':
+        ActiveSvgComponent = MsgA;
+        InactiveSvgComponent = MsgD;
+        break;
+
       case 'addEvent':
         ActiveSvgComponent = CreateEventSvgA;
         InactiveSvgComponent = CreateEventSvg;
         break;
+
       case 'findTalent':
         ActiveSvgComponent = TalentA;
         InactiveSvgComponent = TalentD;
         break;
+
       case 'profile':
         ActiveSvgComponent = ProfileSvgA;
         InactiveSvgComponent = ProfileSvg;
@@ -61,7 +66,7 @@ export default function OrganizerTabLayout() {
           color={color}
           style={{
             tintColor: color,
-            opacity: focused ? 1 : 1
+            opacity: focused ? 1 : 0.9,
           }}
         />
       </View>
@@ -88,18 +93,21 @@ export default function OrganizerTabLayout() {
         tabBarIcon: ({ focused, color, size }) => getTabIcon(route, focused, color),
       })}
     >
-      <Tabs.Screen
-        name="dashboard"
-        options={{
-          title: 'Dashboard',
-        }}
-      />
-      <Tabs.Screen
+
+<Tabs.Screen
         name="orgEvent"
         options={{
           title: 'My Events',
         }}
       />
+
+      <Tabs.Screen
+        name="dashboard"
+        options={{
+          title: 'Messages',
+        }}
+      />
+
       <Tabs.Screen
         name="addEvent"
         options={{
